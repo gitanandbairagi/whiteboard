@@ -10,6 +10,7 @@ use App\Models\Draft;
 use App\Models\Grade;
 use App\Models\Enquiry;
 use App\Models\Line;
+use App\Models\BackLine;
 use App\Models\Size;
 use App\Models\PasswordReset;
 use Carbon\Carbon;
@@ -179,6 +180,7 @@ class UserController extends Controller
                     ->where('grade_id', '=', '4')
                     ->get()->toArray();
         $lines = Line::all()->toArray();
+        $back_lines = BackLine::all()->toArray();
 
         $dimension = [
             'width' => $width,
@@ -186,7 +188,7 @@ class UserController extends Controller
             'id' => $id, 
         ];
 
-        return view('user.pages.fifthAndSixthGrade', ['elements' => $ele, 'lines' => $lines, 'dimension' => $dimension]);
+        return view('user.pages.fifthAndSixthGrade', ['elements' => $ele, 'lines' => $lines, 'back_lines' => $back_lines, 'dimension' => $dimension]);
     }
 
     public function third_fourth($width, $length, $id)
@@ -195,6 +197,7 @@ class UserController extends Controller
                     ->where('grade_id', '=', '3')
                     ->get()->toArray();
         $lines = Line::all()->toArray();
+        $back_lines = BackLine::all()->toArray();
 
         $dimension = [
             'width' => $width,
@@ -202,7 +205,7 @@ class UserController extends Controller
             'id' => $id, 
         ];
 
-        return view('user.pages.thirdAndFourthGrade', ['elements' => $ele, 'lines' => $lines, 'dimension' => $dimension]);
+        return view('user.pages.thirdAndFourthGrade', ['elements' => $ele, 'lines' => $lines, 'back_lines' => $back_lines, 'dimension' => $dimension]);
     }
 
     public function first_second($width, $length, $id)
@@ -211,6 +214,7 @@ class UserController extends Controller
                         ->where('grade_id', '=', '2')
                         ->get()->toArray();
         $lines = Line::all()->toArray();
+        $back_lines = BackLine::all()->toArray();
 
         $dimension = [
             'width' => $width,
@@ -218,7 +222,7 @@ class UserController extends Controller
             'id' => $id, 
         ];
 
-        return view('user.pages.firstAndSecondGrade', ['elements' => $ele, 'lines' => $lines, 'dimension' => $dimension]);
+        return view('user.pages.firstAndSecondGrade', ['elements' => $ele, 'lines' => $lines, 'back_lines' => $back_lines, 'dimension' => $dimension]);
     }
 
     public function kinder_garten($width, $length, $id)
@@ -227,6 +231,7 @@ class UserController extends Controller
                         ->where('grade_id', '=', '1')
                         ->get()->toArray();
         $lines = Line::all()->toArray();
+        $back_lines = BackLine::all()->toArray();
 
         $dimension = [
             'width' => $width,
@@ -234,7 +239,7 @@ class UserController extends Controller
             'id' => $id, 
         ];
 
-        return view('user.pages.kinderGarten', ['elements' => $ele, 'lines' => $lines, 'dimension' => $dimension]);
+        return view('user.pages.kinderGarten', ['elements' => $ele, 'lines' => $lines, 'back_lines' => $back_lines, 'dimension' => $dimension]);
     }
 
     public function defined_fift_sixth() {
@@ -326,7 +331,8 @@ class UserController extends Controller
     public function save_draft(Request $request) {
         $user_id = session()->get('id');
         $line_id = intval(preg_replace("/[^0-9]/", '', $request->lineId));
-
+        $back_line_id = intval(preg_replace("/[^0-9]/", '', $request->backLineId));
+    
         $draft = new Draft;
         $draft->user_id = $user_id;
         $draft->grade_id = $request->grade_id;
@@ -334,6 +340,7 @@ class UserController extends Controller
             $draft->line_id = $line_id;
         }
         $draft->dimension_id = $request->dimensionId;
+        $draft->back_line_id = $back_line_id;
         $draft->save();
 
         $draft = Draft::select('id')
@@ -367,11 +374,13 @@ class UserController extends Controller
                                 ->get()
                                 ->toArray();         
         $lines = Line::all()->toArray();
+        $back_lines = BackLine::all()->toArray();
         $draft = Draft::where('id', $draft_id) 
-                        ->select('line_id', 'dimension_id')
+                        ->select('line_id', 'back_line_id', 'dimension_id')
                         ->get()
                         ->toArray();
         $line_id = $draft[0]['line_id'];
+        $back_line_id = $draft[0]['back_line_id'];
         $elements = [];
         foreach ($positions as $position) {
             $elements[$position['position']] = $position['element_id'];
@@ -392,7 +401,7 @@ class UserController extends Controller
         ];
         
 
-        return view('user.pages.draft', ['positions' => $positions, 'elements' => $elements, 'draft_id' => $draft_id, 'lines' => $lines, 'line_id' => $line_id, 'dimension' => $dimension]);
+        return view('user.pages.draft', ['positions' => $positions, 'elements' => $elements, 'draft_id' => $draft_id, 'lines' => $lines, 'line_id' => $line_id, 'dimension' => $dimension, 'back_lines' => $back_lines, 'back_line_id' => $back_line_id]);
     }
 
     public function remove_draft($draft_id) {
@@ -407,6 +416,7 @@ class UserController extends Controller
     public function update_draft(Request $request) {
         $draft_id = $request->draftId;
         $line_id = intval(preg_replace("/[^0-9]/", '', $request->lineId));
+        $back_line_id = intval(preg_replace("/[^0-9]/", '', $request->backLineId));
 
         Position::where('draft_id', $draft_id)
                 ->delete();
@@ -422,10 +432,10 @@ class UserController extends Controller
         }
 
         if ($line_id != 0) {
-            Draft::where('id', $draft_id)->update(['line_id' => $line_id]);
+            Draft::where('id', $draft_id)->update(['line_id' => $line_id, 'back_line_id' => $back_line_id]);
         }
         else {
-            Draft::where('id', $draft_id)->update(['line_id' => null]);
+            Draft::where('id', $draft_id)->update(['line_id' => null, 'back_line_id' => $back_line_id]);
         }
 
         $response = "SUCCESS";

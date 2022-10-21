@@ -254,8 +254,40 @@
                             {{-- <div style="margin-left:auto ;" class="btn btn-primary rounded-pill text-white px-3 d-flex align-items-center"
                             style="z-index: 1;left:0;background-color: #7548fe;" id="save" onclick="EquiryFrom()">
                             <span class="fa fa-save"></span>&nbsp;&nbsp;Save</div> --}}
-                            
                 </div>
+                <select id="selectBackLines" class="form-select" name="backLineId">
+                    @foreach ($back_lines as $line)
+                    <option value="{{ 'back'.$line['id'] }}" @if ($back_line_id == $line['id']) selected @endif>{{ $line['name'] }}</option>
+                    @endforeach
+                </select>
+
+                @foreach ($back_lines as $line)
+                <div class="{{ 'back'.$line['id'] }} box mt-2">
+                    <img src="{{ url('assets/images/'.$line['img_name']) }}" alt="whole-number"
+                        style="width:100%;" />
+                </div>
+                @endforeach
+                <!-- javascript for selecting type of back lines -->
+
+                <script src="https://code.jquery.com/jquery-1.12.4.min.js">
+                </script>
+                <script>
+                    // jQuery functions to hide and show the div
+                    $(document).ready(function () {
+                        $("#selectBackLines").change(function () {
+                            $(this).find("option:selected")
+                                   .each(function () {
+                                var optionValue = $(this).attr("value");
+                                if (optionValue) {
+                                    $(".box").not("." + optionValue).hide();
+                                    $("." + optionValue).show();
+                                } else {
+                                    $(".box").hide();
+                                }
+                            });
+                        }).change();
+                    });
+                </script>
                 <div class="" style="height: 100vh;"></div>
                 <div class="bg-dark" style="bottom: 0;position:sticky;width: 100%; height: 120px;">
 
@@ -319,11 +351,12 @@
 
     updateDraft.addEventListener('click', ()=> {
         let lineId = document.querySelector('#selectLines').value
+        let backLineId = document.querySelector('#selectBackLines').value
         $.ajax({
             url: "{{ route('update-draft') }}",
             type: "POST",
             dataType: 'json',
-            data: { draftId, lineId },
+            data: { draftId, lineId, backLineId },
             headers: {
                 "X-CSRF-Token": "{{ csrf_token() }}"
             },

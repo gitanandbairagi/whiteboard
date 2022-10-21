@@ -40,11 +40,11 @@
 
 <body>
 
+    <form action="{{ route('save-draft') }}" method="post">
+        @csrf
     <section id="frontBoard">
         <div class="row">
             <div class="col-10">
-                <form action="{{ route('save-draft') }}" method="post">
-                    @csrf
                     {{-- for grade clarification --}}
                     <input type="hidden" value="1" name="grade_id">
                 <div class="row" style="height: 100vh;background-color: #172337;">
@@ -188,7 +188,6 @@
                         </div>
                     </div>
                 </div>
-                </form>
             </div>
             <div class="col-2">
                 <div class="bottom-0 position-absolute">
@@ -212,39 +211,129 @@
 
     <section id="backBoard" style="display:none;">
         <div class="row" style="height: 100vh;background-color: #172337;">
-            <div class="col-2 position-relative">
-                <div class="position-relative">
+            <div class="col-2">
+                <div class="">
                     <img src="{{url('assets/images/triangle.png')}}" class="img-fluid"
                         style="transform: rotate(180deg);width:100%" />
-                       <a href="./dashBoard.html"> <div class="btn btn-primary position-absolute m-lg-4 m-2 px-lg-3"
-                            style="z-index: 1;left:0;background-color: #7548fe;"><span class="fa fa-save"></span>&nbsp;&nbsp;Save</div></a>
                 </div>
-                <div class="bottom-0 position-absolute" style="width: 100%;">
-                    <img src="{{url('assets/images/3rd & 4th/11.png')}}" class="img-fluid" style="height: 40vh;" />
+                <div class="bottom-0 position-absolute">
+                    <div class="" style="height: 65vh;width: 16.5vw; overflow-y: hidden;">
+                        <div class="justify-content-center d-flex">
+                            <div>
+                                <div class="py-2 mx-5 bg-danger"></div>
+                                <div class="text-white mt-3" style="font-weight: 500; font-size: 27px;">Substraction
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="justify-content-center d-flex text-white" style="margin-top: 150px;">
+                            <div class="">
+                                <div class="d-lg-flex text-center align-items-center mb-lg-2 mb-3">
+                                    <div class="mx-lg-3 mx-1 bg-danger" style="height: 5px;width: 80px;"></div>
+                                    Subract
+                                </div>
+                                <div class="d-lg-flex text-center align-items-center mb-lg-2 mb-3">
+                                    <div class="mx-lg-3 mx-1 bg-danger" style="height: 5px;width: 80px;"></div>Minus
+                                </div>
+                                <div class="d-lg-flex text-center align-items-center mb-lg-2 mb-3">
+                                    <div class="mx-lg-3 mx-1 bg-danger" style="height: 5px;width: 80px;"></div>Take
+                                    Away
+                                </div>
+                                <div class="d-lg-flex text-center align-items-center mb-lg-2 mb-3">
+                                    <div class="mx-lg-3 mx-1 bg-danger" style="height: 5px;width: 80px;"></div>>Less
+                                    Than
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-8 midSection bg-white" style="height: 100vh; overflow-y: scroll;">
+            <div class="col-8 midSection bg-white" style="height: 100vh; overflow-y: hidden;">
                 <div class="p-2" style="top:0;position: sticky;background-color: #d0d0d0;">
                     <div class="btn btn-dark rounded-pill text-white px-3 d-flex align-items-center"
                         style="width:fit-content;background-color:#172337;" onclick="backBoard()">Switch to
                         FrontBoard&nbsp;<img style="height: 20px;"
                             src="https://img.icons8.com/material-outlined/24/FFFFFF/move-right.png" /></div>
                 </div>
+                <select id="selectBackLines" class="form-select" name="backLineId">
+                    @foreach ($back_lines as $line)
+                    <option value="{{ 'back'.$line['id'] }}">{{ $line['name'] }}</option>
+                    @endforeach
+                </select>
+
+                @foreach ($back_lines as $line)
+                <div class="{{ 'back'.$line['id'] }} box mt-2">
+                    <img src="{{ url('assets/images/'.$line['img_name']) }}" alt="whole-number"
+                        style="width:100%;" />
+                </div>
+                @endforeach
+                <!-- javascript for selecting type of back lines -->
+
+                <script src="https://code.jquery.com/jquery-1.12.4.min.js">
+                </script>
+                <script>
+                    // jQuery functions to hide and show the div
+                    $(document).ready(function () {
+                        $("#selectBackLines").change(function () {
+                            $(this).find("option:selected")
+                                   .each(function () {
+                                var optionValue = $(this).attr("value");
+                                if (optionValue) {
+                                    $(".box").not("." + optionValue).hide();
+                                    $("." + optionValue).show();
+                                } else {
+                                    $(".box").hide();
+                                }
+                            });
+                        }).change();
+                    });
+                </script>
+
                 <div class="" style="height: 100vh;"></div>
                 <div class="bg-dark" style="bottom: 0;position:sticky;width: 100%; height: 120px;">
 
                 </div>
             </div>
-            <div class="col-2 position-relative">
+
+            <div class="col-2">
                 <div class="">
-                    <img src="{{url('assets/images/triangle.png')}}" class="img-fluid "
-                        style="transform: rotate(270deg);width:100%" />
+                    <img src="{{url('assets/images/triangle.png')}}" class="img-fluid position-absolute"
+                        style="transform: rotate(270deg);" />
                 </div>
-                <div class="bottom-0 position-absolute" style="width: 100%;">
-                    <img src="{{url('assets/images/3rd & 4th/30.png')}}" class="img-fluid" style="height: 40vh;" />
+                <div id="" class="bottom-0 position-absolute">
+                    <div class="row" style="height: 65vh; overflow-y: hidden;">
+                        <div class="justify-content-center d-flex">
+                            <div class="text-center">
+                                <div class="fa fa-plus fa-4x" style="color: rgb(12, 241, 12);"></div>
+                                <div class="text-white mt-3" style="font-weight: 500; font-size: 27px;">Addition
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="my-4 text-white justify-content-center d-flex">
+                            <div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="fa fa-plus fa-lg px-2" style="color: rgb(12, 241, 12);"></div>Add
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="fa fa-plus fa-lg px-2" style="color: rgb(12, 241, 12);"></div>Plus
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="fa fa-plus fa-lg px-2" style="color: rgb(12, 241, 12);"></div>All
+                                    Together
+                                </div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="fa fa-plus fa-lg px-2" style="color: rgb(12, 241, 12);"></div>
+                                    < Greater Than </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
     </section>
+</form>
 </body>
 
 {{-- JQuery CDN --}}
