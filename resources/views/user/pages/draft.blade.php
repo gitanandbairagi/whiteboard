@@ -61,15 +61,99 @@
                                 style="width:fit-content;background-color:#172337;" onclick="backBoard()">Switch to
                                 BackBoard&nbsp;<img style="height: 20px ;"
                                     src="https://img.icons8.com/material-outlined/24/FFFFFF/move-right.png" /></div>
+                                    <div class="mt-2 mx-2 text-dark">
+                                        <input type="hidden" id="dimensionId" name="dimensionId" value="{{ $dimension['id'] }}">
+                                        Dimension : <span class="fst-italic">{{ $dimension['width'].' X '.$dimension['length'].' inches' }}</span>
+                                    </div>
+
                                     <div style="margin-left:auto ;" class="btn btn-primary rounded-pill text-white px-3 d-flex align-items-center"
                             style="z-index: 1;left:0;background-color: #7548fe;" id="sendEnquiryBtn">
                             <i class="fa fa-paper-plane-o" aria-hidden="true"></i>&nbsp;&nbsp;Send Enquiry <input type="hidden" name="draftId" value="{{ $draft_id }}"> </div>
                         </div>
 
+                        <select id="selectLines" class="form-select" name="lineId">
+                            <option>No lines</option>
+                            @foreach ($lines as $line)
+                                <option value="{{ 'line'.$line['id'] }}" @if ($line_id == $line['id'])
+                                    selected
+                                @endif>{{ ucwords($line['name']) }}</option>
+                            @endforeach
+                        </select>
+
+                         
+                       
+
+                        <div class="line1 box">
+                        <hr style="border-top: 3px solid black;">
+                        <hr style="border-top: 3px dashed black;background-color: white;">
+                        <hr style="border-top: 3px solid black;">
+                        <hr style="border-top: 3px dashed black;background-color: white;">
+                        <hr style="border-top: 3px solid black;">
+                        <hr style="border-top: 3px dashed black;background-color: white;">
+                        <hr style="border-top: 3px solid black;">
+                        <hr style="border-top: 3px dashed black;background-color: white;">
+                        <hr style="border-top: 3px solid black;">
+                        <hr style="border-top: 3px dashed black;background-color: white;">
+                        <hr style="border-top: 3px solid black;">
+                        <hr style="border-top: 3px dashed black;background-color: white;">
+                        <hr style="border-top: 3px solid black;">
+                        <hr style="border-top: 3px dashed black;background-color: white;">
+                        <hr style="border-top: 3px solid black;">
+                        <hr style="border-top: 3px dashed black;background-color: white;">
+                        <hr style="border-top: 3px solid black;">
+                        <hr style="border-top: 3px dashed black;background-color: white;">
+                        <hr style="border-top: 3px solid black;">
+                        </div>
+
+
+
+                        <div class="line2 box">
+                            <div>
+                            <hr style="border-top: 3px solid black;"> 
+                            <hr style="border-top: 3px solid black;"> 
+                            </div>
+                            @for ($i = 0; $i < 5; $i++)
+                            <div style="margin-top:2.5rem ;">
+                                <hr style="border-top: 3px solid black;"> 
+                                <hr style="border-top: 3px solid black;"> 
+                            </div>
+                            @endfor
+                        </div>
+                          
+                        <!-- kkl -->
+                        <div class="line3 box">
+                            @for ($i = 0; $i < 10; $i++)
+                            <hr  style="border-top: 3px solid black;margin-top: 2rem;">
+                            @endfor
+                        </div>
+                        
+                        <!-- javascript for selecting type of lines -->
+
+                        <script src=
+                        "https://code.jquery.com/jquery-1.12.4.min.js">
+                            </script>
+                        <script>
+                            // jQuery functions to hide and show the div
+                            $(document).ready(function () {
+                                $("#selectLines").change(function () {
+                                    $(this).find("option:selected")
+                                           .each(function () {
+                                        var optionValue = $(this).attr("value");
+                                        if (optionValue) {
+                                            $(".box").not("." + optionValue).hide();
+                                            $("." + optionValue).show();
+                                        } else {
+                                            $(".box").hide();
+                                        }
+                                    });
+                                }).change();
+                            });
+                        </script>
+
                         <div class="row bottom-0 position-absolute" style="width: 55.6%;">
                             @for ($i = 1; $i <= 4; $i++)
                                     <div class="col">
-                                        <div id="{{ 'div'.$i }}" style="overflow-y: scroll;height: 150px;width:100%" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                        <div id="{{ 'div'.$i }}" style="overflow-y: scroll;height: 173px;width:100%; border: 1px solid #a8a8a8" ondrop="drop(event)" ondragover="allowDrop(event)">
                                             @foreach ($positions as $position)
                                                 @if ('div'.$i == $position['position'])
                                                     <img src="{{ asset('public/storage/'.$position['name'])}}" draggable="true" ondragstart="drag(event)" id="{{ $position['element_id'] }}" style="height: 100%;width:100%">
@@ -234,11 +318,12 @@
     let draftId = "{{ $draft_id }}"
 
     updateDraft.addEventListener('click', ()=> {
+        let lineId = document.querySelector('#selectLines').value
         $.ajax({
             url: "{{ route('update-draft') }}",
             type: "POST",
             dataType: 'json',
-            data: { draftId },
+            data: { draftId, lineId },
             headers: {
                 "X-CSRF-Token": "{{ csrf_token() }}"
             },
@@ -260,7 +345,9 @@
     let sendEnquiryBtn = document.querySelector('#sendEnquiryBtn')
     sendEnquiryBtn.addEventListener('click', ()=> {
         let draftId = document.querySelector('#sendEnquiryBtn > input[name=draftId]').value
-        let url = "{{ route('send-enquiry', '') }}" + '/' + draftId
+        let dimensionId = document.querySelector('#dimensionId').value
+        let type = 'custom'
+        let url = location.origin + '/whiteboard/enquiry-form/' + draftId + '/' + dimensionId + '/' + type
         window.location.href = url
     })
 </script>

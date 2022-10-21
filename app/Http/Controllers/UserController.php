@@ -9,6 +9,10 @@ use App\Models\Position;
 use App\Models\Draft;
 use App\Models\Grade;
 use App\Models\Enquiry;
+use App\Models\Line;
+use App\Models\Size;
+use App\Models\PasswordReset;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -25,6 +29,76 @@ class UserController extends Controller
     public function view_login()
     {
         return view('user.auth.login');
+    }
+
+    public function forgot_password()
+    {
+        return view('user.auth.forgotPassword');
+    }
+
+    public function reset_password_link(Request $request) {
+        $request->validate([
+            'email' => 'required | email | exists:users,email'
+        ]);
+
+        $token = \Str::random(64);
+
+        \DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => Carbon::now(),
+        ]);
+
+        $action_link = route('view-reset-password', ['token' => $token, 'email' => $request->email]);
+        $body = 'We Received a Request to Reset the Password for <strong>Whiteboard</strong> account associated with '.$request->email. '. You can Reset Your Password by Clicking the Link Below: ';
+
+        \Mail::send('user.auth.email-forgot', ['action_link' => $action_link, 'body' => $body], function($message) use($request) {
+            $message->from('noreply@example.com', 'Whiteboard');
+            $message->to($request->email, 'Whiteboard')
+                    ->subject('Reset Password');
+        });
+
+        $success = 'We have Mailed you the Reset Link. Please Check Your Email';
+        session()->flash('success', $success);
+        return redirect()->back();
+    }
+
+    public function view_reset_password(Request $request) {
+        return view('user.auth.resetPassword', ['email' => $request->email, 'token' => $request->token]);
+    }
+
+    public function reset_password(Request $request) {
+        $request->validate([
+            'email' => 'required | email | exists:users,email',
+            'password' => 'required | confirmed',
+            'password_confirmation' => 'required',
+        ]);
+
+        $check_token = \DB::table('password_resets')->where([
+            'email' => $request->email,
+            'token' =>  $request->token
+        ])->first();
+
+        if (!$check_token) {
+            $error = 'Invalid Token';
+            session()->flash('error', $error);
+            return redirect()->back();
+        }
+        else {
+            User::where('email', $request->email)
+                ->update([
+                    'password' => password_hash($request->password, PASSWORD_DEFAULT),
+                ]);
+
+            \DB::table('password_resets')->where([
+                'email' => $request->email
+            ])->delete();
+
+            $success = 'Your Password has been Changed, You Can Login with Your New Password.';
+            session()->flash('success', $success);
+
+            return redirect()->route('user-login');
+        }
     }
     
     public function signup(Request $request)
@@ -76,58 +150,91 @@ class UserController extends Controller
 
     public function show_grade_board(Request $request) {
         $grade = $request->grade;
+        $dimension = Size::where('id', $request->dimensionId)
+                        ->select('id', 'width', 'length')
+                        ->get()
+                        ->toArray();
+        $dimension = $dimension[0];
 
         $elements = [];
         session()->put('elements', $elements);
 
         if ($grade == '1') {
-            return redirect()->route('kinder-garden');
+            return redirect()->route('kinder-garden', ['width' => $dimension['width'], 'length' => $dimension['length'], $dimension['id']]);
         }
         else if ($grade == '2') {
-            return redirect()->route('first-second');
+            return redirect()->route('first-second', ['width' => $dimension['width'], 'length' => $dimension['length'], $dimension['id']]);
         }
         else if ($grade == '3') {
-            return redirect()->route('third-fourth');
+            return redirect()->route('third-fourth', ['width' => $dimension['width'], 'length' => $dimension['length'], $dimension['id']]);
         }
         else {
-            return redirect()->route('fifth-sixth');
+            return redirect()->route('fifth-sixth', ['width' => $dimension['width'], 'length' => $dimension['length'], $dimension['id']]);
         }
     }
 
-    public function fift_sixth()
+    public function fift_sixth($width, $length, $id)
     {
         $ele = Element::select('id', 'name')
                     ->where('grade_id', '=', '4')
                     ->get()->toArray();
+        $lines = Line::all()->toArray();
 
-        return view('user.pages.fifthAndSixthGrade', ['elements' => $ele]);
+        $dimension = [
+            'width' => $width,
+            'length' => $length,
+            'id' => $id, 
+        ];
+
+        return view('user.pages.fifthAndSixthGrade', ['elements' => $ele, 'lines' => $lines, 'dimension' => $dimension]);
     }
 
-    public function third_fourth()
+    public function third_fourth($width, $length, $id)
     {
         $ele = Element::select('id', 'name')
                     ->where('grade_id', '=', '3')
                     ->get()->toArray();
+        $lines = Line::all()->toArray();
 
-        return view('user.pages.thirdAndFourthGrade', ['elements' => $ele]);
+        $dimension = [
+            'width' => $width,
+            'length' => $length,
+            'id' => $id, 
+        ];
+
+        return view('user.pages.thirdAndFourthGrade', ['elements' => $ele, 'lines' => $lines, 'dimension' => $dimension]);
     }
 
-    public function first_second()
+    public function first_second($width, $length, $id)
     {
         $ele = Element::select('id', 'name')
                         ->where('grade_id', '=', '2')
                         ->get()->toArray();
+        $lines = Line::all()->toArray();
 
-        return view('user.pages.firstAndSecondGrade', ['elements' => $ele]);
+        $dimension = [
+            'width' => $width,
+            'length' => $length,
+            'id' => $id, 
+        ];
+
+        return view('user.pages.firstAndSecondGrade', ['elements' => $ele, 'lines' => $lines, 'dimension' => $dimension]);
     }
 
-    public function kinder_garten()
+    public function kinder_garten($width, $length, $id)
     {
         $ele = Element::select('id', 'name')
                         ->where('grade_id', '=', '1')
                         ->get()->toArray();
+        $lines = Line::all()->toArray();
 
-        return view('user.pages.kinderGarten', ['elements' => $ele]);
+        $dimension = [
+            'width' => $width,
+            'length' => $length,
+            'id' => $id, 
+        ];
+
+        return view('user.pages.kinderGarten', ['elements' => $ele, 'lines' => $lines, 'dimension' => $dimension]);
     }
 
     public function defined_fift_sixth() {
@@ -148,11 +255,31 @@ class UserController extends Controller
         return view('user.pages.selectGrade');
     }
 
-    public function send_enquiry($draft_id) {
-        return view('user.pages.dashboard', ['draft_id' => $draft_id]);
+    public function send_enquiry($id, $dimension_id, $type) {
+        if ($type == 'predefined') {
+            $grade = Grade::where('id', $id)
+                            ->select('grade')
+                            ->get()
+                            ->toArray();
+            $grade = $grade[0]['grade'];
+
+            return view('user.pages.dashboard', ['grade_id' => $id, 'grade' => $grade]);
+        }
+        else {
+            return view('user.pages.dashboard', ['draft_id' => $id, 'dimension_id' => $dimension_id]);
+        }
     }
 
     public function save_enquiry(Request $request) {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required | email',
+            'contactNumber' => 'required | digits:10',
+            'address' => 'required',
+            'remarks' => 'required',
+            'schoolName' => 'required',
+        ]);
+
         $enquiry = new Enquiry;
         $enquiry->name = $request->name;
         $enquiry->email = $request->email;
@@ -161,7 +288,13 @@ class UserController extends Controller
         $enquiry->remarks = $request->remarks;
         $enquiry->quantity = '5';
         $enquiry->markers = '15';
-        $enquiry->draft_id = $request->draftId;
+        if (isset($request->gradeId)) {
+            $enquiry->grade_id = $request->gradeId;
+        } else {
+            $enquiry->draft_id = $request->draftId;
+        }
+        $enquiry->school_name = $request->schoolName;
+        $enquiry->dimension_id = $request->dimensionId;
         $enquiry->save();
 
         return redirect()->route('thankyou');
@@ -190,12 +323,17 @@ class UserController extends Controller
         return response()->json($response);
     }
 
-    public function save_draft($grade_id) {
+    public function save_draft(Request $request) {
         $user_id = session()->get('id');
+        $line_id = intval(preg_replace("/[^0-9]/", '', $request->lineId));
 
         $draft = new Draft;
         $draft->user_id = $user_id;
-        $draft->grade_id = $grade_id;
+        $draft->grade_id = $request->grade_id;
+        if ($line_id != 0) {
+            $draft->line_id = $line_id;
+        }
+        $draft->dimension_id = $request->dimensionId;
         $draft->save();
 
         $draft = Draft::select('id')
@@ -219,7 +357,7 @@ class UserController extends Controller
         $elements = [];
         session()->put('elements', $elements);
 
-        return redirect()->route('show-draft', ['draft_id' => $draft_id, 'grade_id' => $grade_id]);
+        return redirect()->route('show-draft', ['draft_id' => $draft_id, 'grade_id' => $request->grade_id]);
     }
 
     public function show_draft($draft_id, $grade_id) {
@@ -227,8 +365,13 @@ class UserController extends Controller
                                 ->select('position', 'element_id', 'name')
                                 ->where('draft_id', $draft_id)
                                 ->get()
-                                ->toArray();           
-
+                                ->toArray();         
+        $lines = Line::all()->toArray();
+        $draft = Draft::where('id', $draft_id) 
+                        ->select('line_id', 'dimension_id')
+                        ->get()
+                        ->toArray();
+        $line_id = $draft[0]['line_id'];
         $elements = [];
         foreach ($positions as $position) {
             $elements[$position['position']] = $position['element_id'];
@@ -238,8 +381,18 @@ class UserController extends Controller
         $elements = Element::where('grade_id', '=', $grade_id)
                             ->get()
                             ->toArray();
+        $dimension = Size::where('id', $draft[0]['dimension_id'])
+                            ->select('width', 'length')
+                            ->get()
+                            ->toArray();
+        $dimension = [
+            'id' => $draft[0]['dimension_id'],
+            'width' => $dimension[0]['width'],
+            'length' => $dimension[0]['length'],
+        ];
         
-        return view('user.pages.draft', ['positions' => $positions, 'elements' => $elements, 'draft_id' => $draft_id]);
+
+        return view('user.pages.draft', ['positions' => $positions, 'elements' => $elements, 'draft_id' => $draft_id, 'lines' => $lines, 'line_id' => $line_id, 'dimension' => $dimension]);
     }
 
     public function remove_draft($draft_id) {
@@ -253,6 +406,7 @@ class UserController extends Controller
 
     public function update_draft(Request $request) {
         $draft_id = $request->draftId;
+        $line_id = intval(preg_replace("/[^0-9]/", '', $request->lineId));
 
         Position::where('draft_id', $draft_id)
                 ->delete();
@@ -267,8 +421,15 @@ class UserController extends Controller
             Position::insert($data);
         }
 
+        if ($line_id != 0) {
+            Draft::where('id', $draft_id)->update(['line_id' => $line_id]);
+        }
+        else {
+            Draft::where('id', $draft_id)->update(['line_id' => null]);
+        }
+
         $response = "SUCCESS";
-        return response()->json($response);
+        return response()->json($line_id);
     }
 
     public function my_drafts(Request $request) {
@@ -287,7 +448,13 @@ class UserController extends Controller
         $grades = Grade::select('id', 'grade')
                         ->get()
                         ->toArray();
-        $response = $grades;
+        $dimensions = Size::all()
+                        ->toArray();
+
+        $response = [
+            'grades' => $grades,
+            'dimensions' => $dimensions,
+        ];
 
         return response()->json($response);
     }

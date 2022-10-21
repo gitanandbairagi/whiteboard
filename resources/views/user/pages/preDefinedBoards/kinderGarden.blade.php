@@ -67,7 +67,7 @@
                                     src="https://img.icons8.com/material-outlined/24/FFFFFF/move-right.png" /></div>
                                     <div style="margin-left:auto ;" class="btn btn-primary rounded-pill text-white px-3 d-flex align-items-center"
                             style="z-index: 1;left:0;background-color: #7548fe;" id="sendEnquiryBtn">
-                            <i class="fa fa-paper-plane-o" aria-hidden="true"></i>&nbsp;&nbsp;Send Enquiry <input type="hidden" name="draftId" value="1"> </div>
+                            <i class="fa fa-paper-plane-o" aria-hidden="true"></i>&nbsp;&nbsp;Send Enquiry <input type="hidden" name="gradeId" value="1"> </div>
                         </div>
 
                         <div>
@@ -198,6 +198,11 @@
                         FrontBoard&nbsp;<img style="height: 20px;"
                             src="https://img.icons8.com/material-outlined/24/FFFFFF/move-right.png" /></div>
                 </div>
+
+                <div class="mt-2">
+                    <img src="{{ url('assets/images/scale.jpeg') }}" class="img-fluid" style="width:100%;" />
+                </div>
+
                 <div class="" style="height: 100vh;"></div>
                 <div class="bg-dark" style="bottom: 0;position:sticky;width: 100%; height: 120px;">
 
@@ -240,6 +245,6 @@
     </section>
 </body>
 
-<script src="../index.js"></script>
+<script src="{{ asset('public/js/sendEnquiry.js') }}"></script>
 
 </html>

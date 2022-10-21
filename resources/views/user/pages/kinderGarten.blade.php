@@ -44,58 +44,148 @@
     <section id="frontBoard">
         <div class="row">
             <div class="col-10">
-                <div class="row" style="height: 100vh;background-color: #172337;">
-                    <div class="col-2 position-relative">
-                        <div class="position-relative">
-                            <img src="{{url('assets/images/triangle.png')}}" class="img-fluid"
-                                style="transform: rotate(180deg);width:100%" />
-                                <a href="{{ route('save-draft', '1') }}"> <div class="btn btn-primary position-absolute m-lg-4 m-2 px-lg-3"
-                                style="z-index: 1;left:0;background-color: #7548fe;" id="save" onclick="EquiryFrom()">
-                                <span class="fa fa-save"></span>&nbsp;&nbsp;Save</div>
-                                </a>
+                <form action="{{ route('save-draft') }}" method="post">
+                    @csrf
+                    {{-- for grade clarification --}}
+                    <input type="hidden" value="1" name="grade_id">
+                    <div class="row" style="height: 100vh;background-color: #172337;">
+                        <div class="col-2 position-relative">
+                            <div class="position-relative">
+                                <img src="{{url('assets/images/triangle.png')}}" class="img-fluid"
+                                    style="transform: rotate(180deg);width:100%" />
+                            </div>
+                            <div class="bottom-0 position-absolute" style="width: 100%;">
+                                <img src="{{url('assets/images/10.png')}}" class="img-fluid" style="height: 40vh;" />
+                            </div>
                         </div>
-                        <div class="bottom-0 position-absolute" style="width: 100%;">
-                            <img src="{{url('assets/images/10.png')}}" class="img-fluid" style="height: 40vh;" />
+                        <div class="col-8 midSection bg-white"
+                            style="height: 100vh; overflow-y: scroll;overflow-x: hidden;">
+                            <div class="p-2 d-flex justify-content-between" style="top:0;position: sticky;background-color: #d0d0d0;">
+                                <div class="btn btn-dark rounded-pill text-white px-3 d-flex align-items-center"
+                                    style="width:fit-content;background-color:#172337;" onclick="backBoard()">Switch to
+                                    BackBoard&nbsp;<img style="height: 20px ;"
+                                        src="https://img.icons8.com/material-outlined/24/FFFFFF/move-right.png" /></div>
+                                        <div class="mt-2 mx-2 text-dark">
+                                            <input type="hidden" name="dimensionId" value="{{ $dimension['id'] }}">
+                                            Dimension : <span class="fst-italic">{{ $dimension['width'].' X '.$dimension['length'].' inches' }}</span>
+                                        </div>
+                                        <div style="margin-left: auto;">
+                                            <button role="button" class="btn btn-primary position-relative rounded-pill"
+                                            style="z-index: 1;left:0;background-color: #7548fe;" id="save" onclick="EquiryFrom()">
+                                            <i class="fa fa-bookmark" aria-hidden="true"></i><span>&nbsp;&nbsp;Save</span>
+                                                </button>
+                                        </div>
+                            </div>
+    
+                            <select id="selectLines" class="form-select" name="lineId">
+                                <option>No lines</option>
+                                @foreach ($lines as $line)
+                                    <option value="{{ 'line'.$line['id'] }}">{{ ucwords($line['name']) }}</option>
+                                @endforeach
+                            </select>
+    
+                             
+                           
+    
+                            <div class="line1 box">
+                            <hr style="border-top: 3px solid black;">
+                            <hr style="border-top: 3px dashed black;background-color: white;">
+                            <hr style="border-top: 3px solid black;">
+                            <hr style="border-top: 3px dashed black;background-color: white;">
+                            <hr style="border-top: 3px solid black;">
+                            <hr style="border-top: 3px dashed black;background-color: white;">
+                            <hr style="border-top: 3px solid black;">
+                            <hr style="border-top: 3px dashed black;background-color: white;">
+                            <hr style="border-top: 3px solid black;">
+                            <hr style="border-top: 3px dashed black;background-color: white;">
+                            <hr style="border-top: 3px solid black;">
+                            <hr style="border-top: 3px dashed black;background-color: white;">
+                            <hr style="border-top: 3px solid black;">
+                            <hr style="border-top: 3px dashed black;background-color: white;">
+                            <hr style="border-top: 3px solid black;">
+                            <hr style="border-top: 3px dashed black;background-color: white;">
+                            <hr style="border-top: 3px solid black;">
+                            <hr style="border-top: 3px dashed black;background-color: white;">
+                            <hr style="border-top: 3px solid black;">
+                            </div>
+    
+    
+    
+                            <div class="line2 box">
+                                <div>
+                                <hr style="border-top: 3px solid black;"> 
+                                <hr style="border-top: 3px solid black;"> 
+                                </div>
+                                @for ($i = 0; $i < 5; $i++)
+                                <div style="margin-top:2.5rem ;">
+                                    <hr style="border-top: 3px solid black;"> 
+                                    <hr style="border-top: 3px solid black;"> 
+                                </div>
+                                @endfor
+                            </div>
+                              
+                            <!-- kkl -->
+                            <div class="line3 box">
+                                @for ($i = 0; $i < 10; $i++)
+                                <hr  style="border-top: 3px solid black;margin-top: 2rem;">
+                                @endfor
+                            </div>
+                            
+                            <!-- javascript for selecting type of lines -->
+    
+                            <script src=
+                            "https://code.jquery.com/jquery-1.12.4.min.js">
+                                </script>
+                            <script>
+                                // jQuery functions to hide and show the div
+                                $(document).ready(function () {
+                                    $("#selectLines").change(function () {
+                                        $(this).find("option:selected")
+                                               .each(function () {
+                                            var optionValue = $(this).attr("value");
+                                            if (optionValue) {
+                                                $(".box").not("." + optionValue).hide();
+                                                $("." + optionValue).show();
+                                            } else {
+                                                $(".box").hide();
+                                            }
+                                        });
+                                    }).change();
+                                });
+                            </script>
+    
+                            <div class="row bottom-0 position-absolute" style="width: 55.6%;">
+                                @for ($i = 1; $i < 5; $i++)
+                                <div class="col">
+                                    <div id="{{ 'div'.$i }}" style="overflow-y: scroll;height: 173px;width:100%; border: 1px solid #a8a8a8" ondrop="drop(event)"
+                                        ondragover="allowDrop(event)"></div>
+                                </div>
+                                @endfor
+                                {{-- <div class="col">
+                                    <div id="div2" style="overflow-y: scroll;height: 173px;width:100%" ondrop="drop(event)"
+                                        ondragover="allowDrop(event)"></div>
+                                </div>
+                                <div class="col">
+                                    <div id="div3" style="overflow-y: scroll;height: 173px;width:100%" ondrop="drop(event)"
+                                        ondragover="allowDrop(event)"></div>
+                                </div>
+                                <div class="col">
+                                    <div id="div4" style="overflow-y: scroll;height: 173px;width:100%" ondrop="drop(event)"
+                                        ondragover="allowDrop(event)"></div>
+                                </div> --}}
+                            </div>
+                        </div>
+                        <div class="col-2 position-relative">
+                            <div class="">
+                                <img src="{{url('assets/images/triangle.png')}}" class="img-fluid "
+                                    style="transform: rotate(270deg);width:100%" />
+                            </div>
+                            <div class="bottom-0 position-absolute" style="width: 100%;">
+                                <img src="{{url('assets/images/9.png')}}" class="img-fluid" style="height: 40vh;" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-8 midSection bg-white"
-                        style="height: 100vh; overflow-y: scroll;overflow-x: hidden;">
-                        <div class="p-2 d-flex" style="top:0;position: sticky;background-color: #d0d0d0;">
-                            <div class="btn btn-dark rounded-pill text-white px-3 d-flex align-items-center"
-                                style="width:fit-content;background-color:#172337;" onclick="backBoard()">Switch to
-                                BackBoard&nbsp;<img style="height: 20px ;"
-                                    src="https://img.icons8.com/material-outlined/24/FFFFFF/move-right.png" /></div>
-                        </div>
-
-                        <div class="row bottom-0 position-absolute" style="width: 55.6%;">
-                            <div class="col">
-                                <div id="div1" style="overflow-y: scroll;height: 150px;width:100%" ondrop="drop(event)"
-                                    ondragover="allowDrop(event)"></div>
-                            </div>
-                            <div class="col">
-                                <div id="div2" style="overflow-y: scroll;height: 150px;width:100%" ondrop="drop(event)"
-                                    ondragover="allowDrop(event)"></div>
-                            </div>
-                            <div class="col">
-                                <div id="div3" style="overflow-y: scroll;height: 150px;width:100%" ondrop="drop(event)"
-                                    ondragover="allowDrop(event)"></div>
-                            </div>
-                            <div class="col">
-                                <div id="div4" style="overflow-y: scroll;height: 150px;width:100%" ondrop="drop(event)"
-                                    ondragover="allowDrop(event)"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-2 position-relative">
-                        <div class="">
-                            <img src="{{url('assets/images/triangle.png')}}" class="img-fluid "
-                                style="transform: rotate(270deg);width:100%" />
-                        </div>
-                        <div class="bottom-0 position-absolute" style="width: 100%;">
-                            <img src="{{url('assets/images/9.png')}}" class="img-fluid" style="height: 40vh;" />
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
             <div class="col-2">
                 <div class="bottom-0 position-absolute">

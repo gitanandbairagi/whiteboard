@@ -40,35 +40,28 @@
             <div class="col-6 p-lg-5 p-md-5 p-4 loginDetails">
                 <div class="justify-content-center d-flex align-items-center" style="height: 100%;">
                     <div>
-                        <div class="" style="font-size: 25px;font-weight:bold">Log In</div>
-                        <div style="text-align: justify;color: #999999;font-weight: 600;">Welcome to something please
-                            put your login creditentials below to
-                            start using the service</div>
+                        <div class="" style="font-size: 25px;font-weight:bold">Reset Password</div>
+                        <div style="text-align: justify;color: #999999;font-weight: 600;"></div>
                         
-                            @if (isset($error))
-                                <p class="mb-0" style="color: red;">{{ $error }}</p>
-                            @endif
-                            @if (session()->has('success'))
-                                <p class="mb-0" class="text-success">{{ session('success') }}</p>
-                            @endif
+                        @error('password')
+                            <span class="text-danger"><sup>* </sup>{{ $message }}</span>
+                        @enderror
+                        @if (session()->has('error'))
+                        <span class="text-danger"><sup>* </sup>{{ session('error') }}</span>
+                        @endif
 
-                        <form class="mt-3" method="post" action="{{ route('user-login-post') }}">
+                        <form class="mt-3" method="post" action="{{ route('reset-password') }}">
                             @csrf
-                            <label style="font-weight: 500;">E-mail:</label>
-                            <input type="email" class="form-control mt-1" name="email" placeholder="Enter Email" required />
-
-                            <label class="mt-3" style="font-weight: 500;">Password:</label>
+                            <input type="hidden" name="token" value="{{ $token }}">
+                            <input type="hidden" name="email" value="{{ $email }}">
+                            <label class="mt-3" style="font-weight: 500;">Password</label>
                             <input type="password" class="form-control mt-1" name="password" placeholder="Enter Password" required />
-
-                            <a href="{{ route('forgot-password') }}" class="justify-content-end d-flex mt-1 text-decoration-none"
-                                style="margin-left: auto;font-weight: 500;">Forgot Password?</a>
+                            <label class="mt-3" style="font-weight: 500;">Confirm Password</label>
+                            <input type="password" class="form-control mt-1" placeholder="Re-Enter Password" name="password_confirmation" required />
                             <hr>
                             <button class="btn btn-primary mt-2 shadow-sm"
-                                style="background-color: #7548FE;border: 1px solid #7548FE;">Log In</button>
+                                style="background-color: #7548FE;border: 1px solid #7548FE;">Reset Password</button>
                         </form>
-                        <div class="mt-4 text-center" style="font-weight: 500;">Don’t have an account ? <span><a
-                                    href="{{ route('user-signup') }}" class="text-decoration-none">Sign
-                                    up</a></span></div>
                     </div>
                 </div>
             </div>

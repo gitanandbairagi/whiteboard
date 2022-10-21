@@ -274,15 +274,11 @@
                                 <div class="row mt-2" style="text-align:justify;">
                                     <div class="my-3 px-3 mb-4" style="font-size: 16px;font-weight: 500;">Design Your
                                         Student’s Chart</div>
-                                    <div class="col-12 px-3 mb-4">
+                                    <div id="selectDimension" class="col-12 px-3 mb-4">
                                         <label for="customBoardDimension">Board Dimensions</label><br>
-                                        <select id="customBoardDimension" class="form-select w-100 p-2 border-0 mt-1"
+                                        <select name="dimensionId" id="customBoardDimension" class="form-select w-100 p-2 border-0 mt-1"
                                             style="background-color: #eee;height: 45px;border-radius: 10px;outline: 0;">
-                                            <option>24 X 12</option>
-                                            <option>24 X 24</option>
-                                            <option>48 X 24</option>
-                                            <option>48 X 48</option>
-                                            <option>52 X 42</option>
+                                            {{-- Render Dimensions Here --}}
                                         </select>
                                     </div>
                                     <div id="selectGrade" class="col-12 px-3 mb-4">
@@ -349,12 +345,23 @@
                         <div style="font-size:24px;font-weight: 600;border-radius: 15px;box-shadow: 1px 1px 2px 1px silver;"
                             class="bg-dark p-4 text-white">Enquiry Form</div>
                         <div class="row mt-5" style="text-align:justify;">
+                            @if (isset($grade_id))
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
+                                <label for="enquiryGradeId">Grade</label><br>
+                                <input type="text" id="enquiryGradeId" class="form-control border-0 mt-1"
+                                    style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
+                                    name="gradeName" value="{{ $grade }}" readonly />
+                                <input type="hidden" name="gradeId" value="{{ $grade_id }}">
+                            </div>
+                            @else
                             <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
                                 <label for="enquiryDraftId">Draft ID</label><br>
                                 <input type="text" id="enquiryDraftId" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
-                                    name="draftId" @if (isset($draft_id)) value="{{ $draft_id }}" @endif />
+                                    name="draftId" @if (isset($draft_id)) value="{{ $draft_id }}" @endif readonly />
+                                    <input type="hidden" name="dimensionId" @if (isset($dimension_id)) value="{{ $dimension_id }}" @endif>
                             </div>
+                            @endif
                             {{-- <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
                                 <label for="enquiryGradeId">Grade</label><br>
                                 <select type="text" id="enquiryGradeId" class="form-control form-select border-0 mt-1"
@@ -367,35 +374,65 @@
                                 </select>
                             </div> --}}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
+                                <label for="enquirySchoolName">School Name</label><br>
+                                <input type="text" id="enquirySchoolName" class="form-control border-0 mt-1"
+                                    style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
+                                    name="schoolName" value="{{ old('schoolName') }}" />
+                                @error('schoolName')
+                                <span class="text-danger"><sup>* </sup>{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
                                 <label for="enquiryName">Name</label><br>
                                 <input type="text" id="enquiryName" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
-                                    name="name" value="{{ session('name') }}" />
+                                    name="name" @if (null !== old('name')) value="{{ old('name') }}" @else value="{{ session('name') }}" @endif />
+                                @error('name')
+                                <span class="text-danger"><sup>* </sup>{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
                                 <label for="enquiryEmail">Email address</label><br>
                                 <input type="email" id="enquiryEmail" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
-                                    name="email" value="{{ session('email') }}" />
+                                    name="email" @if (null !== old('email')) value="{{ old('email') }}" @else value="{{ session('email') }}" @endif />
+                                @error('email')
+                                <span class="text-danger"><sup>* </sup>{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
                                 <label for="enquiryContact">Contact number</label><br>
                                 <input type="tel" id="enquiryContact" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
-                                    name="contactNumber" />
+                                    name="contactNumber" value="{{ old('contactNumber') }}" />
+                                    @error('contactNumber')
+                                    <span class="text-danger"><sup>* </sup>{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
+                                <label for="enquiryRemarks">Remarks</label><br>
+                                <input type="text" id="enquiryRemarks" class="form-control border-0 mt-1"
+                                    style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
+                                    name="remarks" value="{{ old('remarks') }}" />
+                                    @error('remarks')
+                                    <span class="text-danger"><sup>* </sup>{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="col-12 px-3 mb-3">
                                 <label for="enquiryAddress">Address</label><br>
                                 <textarea rows="5" id="enquiryAddress" class="border-0 px-3 py-2 mt-1"
                                     style="width: 100%;background-color: #eee;border-radius: 10px;outline: 0;"
-                                    name="address"></textarea>
+                                    name="address">{{ old('address') }}</textarea>
+                                    @error('address')
+                                    <span class="text-danger"><sup>* </sup>{{ $message }}</span>
+                                @enderror
                             </div>
-                            <div class="col-12 px-3 mb-3">
+                            {{-- <div class="col-12 px-3 mb-3">
                                 <label for="enquiryRemarks">Remarks</label><br>
                                 <input type="text" id="enquiryRemarks" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
                                     name="remarks" />
-                            </div>
+                            </div> --}}
                             <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
                                 <label for="enquiryQuality">Quantity required</label><br>
                                 <select id="enquiryQuality" class="w-100 p-2 border-0 mt-1"
@@ -420,7 +457,7 @@
                         <div class="d-flex justify-content-center">
                             <div class="text-center my-5">
                                 <button id="enquiryBtn" class="btn btn-primary border-0 py-2 px-5 mx-2"
-                                    style="border-radius: 10px;background-color: #7548FE;">Send enquiry</button>
+                                    style="border-radius: 10px;background-color: #7548FE;">Send Enquiry</button>
                             </div>
                         </div>
                     </form>
@@ -536,14 +573,22 @@
                 dataType: 'json',
                 success: function(response) {
                     let selectGrade = document.querySelector('#selectGrade select')
+                    let selectDimension = document.querySelector('#selectDimension select')
+                    selectDimension.textContent = ''
                     selectGrade.textContent = ''
-                    response.forEach(element => {
+                    Array.from(response.dimensions).forEach(element => {
+                        let option = document.createElement('option')
+                        option.setAttribute('value', element['id'])
+                        option.innerHTML = element['width'] + ' X ' + element['length'] + ' inches'
+                        selectDimension.append(option)
+                    });
+                    Array.from(response.grades).forEach(element => {
                         let option = document.createElement('option')
                         option.setAttribute('value', element['id'])
                         option.innerHTML = element['grade']
                         selectGrade.append(option)
                     });
-                    console.log("SUCCESS: " +response)
+                    console.log("SUCCESS: " +JSON.stringify(response.grades))
                 },
                 error: function(error) {
                     console.log("ERROR: " +error)
@@ -614,7 +659,7 @@
         } 
 
         // Show Enquiry Form
-        if("{{ isset($draft_id) }}") {
+        if("{{ isset($draft_id) }}" || "{{ isset($grade_id) }}") {
             document.querySelector('#enquiry').className += ' show active'
             document.querySelector('#home').classList.remove('active')
         }

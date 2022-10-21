@@ -13,10 +13,14 @@ use App\Http\Controllers\AdminController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// GET Request
 Route::get('/',[UserController::class,'view_login'])->name('user-login');
 Route::get('signup',[UserController::class,'view_signup'])->name('user-signup');
+Route::post('signup', [UserController::class, 'signup'])->name('user-signup-post');
+Route::post('login', [UserController::class, 'login'])->name('user-login-post');
+Route::get('forgot-password',[UserController::class,'forgot_password'])->name('forgot-password');
+Route::post('reset-password-link',[UserController::class,'reset_password_link'])->name('reset-password-link');
+Route::get('view-reset-password',[UserController::class,'view_reset_password'])->name('view-reset-password');
+Route::post('reset-password',[UserController::class,'reset_password'])->name('reset-password');
 
 Route::middleware(['webGuard'])->group(function() {
     Route::get('dashboard',[UserController::class,'dashboard'])->name('user-dashboard');
@@ -27,28 +31,24 @@ Route::middleware(['webGuard'])->group(function() {
     Route::get('defined-first-and-second',[UserController::class,'defined_first_second'])->name('defined-first-second');
     Route::get('defined-kinder-garten',[UserController::class,'defined_kinder_garten'])->name('defined-kinder-garden');
     // Customizable Boards
-    Route::get('fifth-and-sixth-grade',[UserController::class,'fift_sixth'])->name('fifth-sixth');
-    Route::get('third-and-fourth-grade',[UserController::class,'third_fourth'])->name('third-fourth');
-    Route::get('first-and-second',[UserController::class,'first_second'])->name('first-second');
-    Route::get('kinder-garten',[UserController::class,'kinder_garten'])->name('kinder-garden');
+    Route::get('fifth-and-sixth-grade/{width}/{length}/{id}',[UserController::class,'fift_sixth'])->name('fifth-sixth');
+    Route::get('third-and-fourth-grade/{width}/{length}/{id}',[UserController::class,'third_fourth'])->name('third-fourth');
+    Route::get('first-and-second/{width}/{length}/{id}',[UserController::class,'first_second'])->name('first-second');
+    Route::get('kinder-garten/{width}/{length}/{id}',[UserController::class,'kinder_garten'])->name('kinder-garden');
 
     Route::get('select-grade',[UserController::class,'select_grade']);
 
     Route::get('thankyou',[UserController::class,'thankYou'])->name('thankyou');
 
-    Route::get('saving-draft/{grade_id}', [UserController::class, 'save_draft'])->name('save-draft');
+    Route::post('saving-draft', [UserController::class, 'save_draft'])->name('save-draft');
     Route::get('show-draft/{draft_id}/{grade_id}', [UserController::class, 'show_draft'])->name('show-draft');
     Route::get('remove-draft/{draft_id}', [UserController::class, 'remove_draft'])->name('remove-draft');
     Route::get('my-drafts', [UserController::class, 'my_drafts'])->name('my-drafts');
     Route::get('custom-parameters', [UserController::class, 'custom_parameters'])->name('custom-parameters');
-    Route::get('enquiry-form/{draft_id}', [UserController::class, 'send_enquiry'])->name('send-enquiry');
+    Route::get('enquiry-form/{draft_id}/{dimension_id}/{type}', [UserController::class, 'send_enquiry'])->name('send-enquiry');
 
     Route::get('logout', [UserController::class, 'logout'])->name('user-logout');
 });
-
-// POST Request
-Route::post('signup', [UserController::class, 'signup'])->name('user-signup-post');
-Route::post('login', [UserController::class, 'login'])->name('user-login-post');
 
 Route::middleware(['webGuard'])->group(function () {
     Route::post('show-grade-board',[UserController::class,'show_grade_board'])->name('show-grade-board');
