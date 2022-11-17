@@ -30,20 +30,30 @@
             <table id="myTable">
                 <thead>
                     <tr>
-                        <td>Draft</td>
+                        <td>Board</td>
                         <td>Name</td>
                         <td>Email</td>
                         <td>Contact</td>
+                        <td>Type</td>
                         <td>Details</td>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($enquiries as $enquiry)
                     <tr>
-                        <td><a href="{{ route('admin-show-draft', [$enquiry['draft_id'], $enquiry['grade_id']]) }}"><i class="fa fa-eye text-primary" aria-hidden="true"><span class="ml-2">Open</span></i></a></td>
+                      @if ($enquiry['draft_id'] != null)
+                      <td><a href="{{ route('admin-show-draft', [$enquiry['draft_id'], $enquiry['grade_id']]) }}"><i class="fa fa-eye text-primary" aria-hidden="true"><span class="ml-2">Open</span></i></a></td>
+                      @else
+                      <td><a href="{{ route('admin-show-pre-defined', $enquiry['grade_id']) }}"><i class="fa fa-eye text-primary" aria-hidden="true"><span class="ml-2">Open</span></i></a></td>
+                      @endif
                         <td>{{ $enquiry['name'] }}</td>
                         <td>{{ $enquiry['email'] }}</td>
                         <td>{{ $enquiry['contact_number'] }}</td>
+                        @if ($enquiry['draft_id'] != null)
+                            <td>Custom</td>
+                        @else
+                            <td>Pre Defined</td>
+                        @endif
                         <td><a href="{{ route('client-details', $enquiry['id']) }}"><i class="fa fa-eye text-primary" aria-hidden="true"><span class="ml-2">Open</span></i></a></td>
                     </tr>
                     @endforeach

@@ -11,7 +11,7 @@
     </ul>
 
    
-    <ul class="navbar-nav ml-auto">
+    {{-- <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
@@ -102,7 +102,7 @@
           <i class="fas fa-th-large"></i>
         </a>
       </li>
-    </ul>
+    </ul> --}}
   </nav>
   <!-- /.navbar -->
 
@@ -137,6 +137,11 @@
 			<li class="nav-item">
 			  <a href="{{ route('show-enquiries') }}" class="nav-link">
 			   <p>Enquiries</p>
+			  </a>
+			</li>
+			<li class="nav-item">
+			  <a href="{{ route('show-elements') }}" class="nav-link">
+			   <p>Elements</p>
 			  </a>
 			</li>
 			<li class="nav-item">

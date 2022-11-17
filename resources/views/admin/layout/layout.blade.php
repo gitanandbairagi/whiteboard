@@ -4,10 +4,12 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Whiteboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{url('assets/adminlte/plugins/fontawesome-free/css/all.min.css')}}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Tempusdominus Bbootstrap 4 -->
@@ -37,11 +39,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<!-- fullCalendar -->
-<link rel="stylesheet" href="{{ url('assets/adminlte/plugins/fullcalendar/main.min.css') }}">
-<link rel="stylesheet" href="{{ url('assets/adminlte/plugins/fullcalendar-daygrid/main.min.css') }}">
-<link rel="stylesheet" href="{{ url('assets/adminlte/plugins/fullcalendar-timegrid/main.min.css') }}">
-<link rel="stylesheet" href="{{ url('assets/adminlte/plugins/fullcalendar-bootstrap/main.min.css') }}">
 @yield('style')
 
 </head>

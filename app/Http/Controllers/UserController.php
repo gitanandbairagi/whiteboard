@@ -115,7 +115,8 @@ class UserController extends Controller
         
         if (count($user) == 1) {
             $error = "Email Already Registered";
-            return view('user.auth.signup', ['error' => $error]);
+            session()->flash('error', $error);
+            return view('user.auth.signup');
         }
         else {
             $user = new User;
@@ -124,6 +125,8 @@ class UserController extends Controller
             $user->password = password_hash($request->password, PASSWORD_DEFAULT);
             $user->save();
         }
+        $success = "Signup Successfull. Please Login with Your Credentials";
+        session()->flash('success', $success);
         return redirect()->route('user-login');
     }
 
@@ -140,7 +143,8 @@ class UserController extends Controller
         }
         else {
             $error = "Invalid Credentials";
-            return view('user.auth.login', ['error' => $error]);
+            session()->flash('error', $error);
+            return redirect('/');
         }
     }
 
@@ -149,9 +153,8 @@ class UserController extends Controller
         return redirect()->route('user-login');
     }
 
-    public function show_grade_board(Request $request) {
-        $grade = $request->grade;
-        $dimension = Size::where('id', $request->dimensionId)
+    public function show_grade_board($grade) {
+        $dimension = Size::where('id', 1)
                         ->select('id', 'width', 'length')
                         ->get()
                         ->toArray();
@@ -159,14 +162,15 @@ class UserController extends Controller
 
         $elements = [];
         session()->put('elements', $elements);
-
-        if ($grade == '1') {
+        
+        if ($grade == 'Pre-K & KinderGarden') {
+            
             return redirect()->route('kinder-garden', ['width' => $dimension['width'], 'length' => $dimension['length'], $dimension['id']]);
         }
-        else if ($grade == '2') {
+        else if ($grade == '1st & 2nd Graders') {
             return redirect()->route('first-second', ['width' => $dimension['width'], 'length' => $dimension['length'], $dimension['id']]);
         }
-        else if ($grade == '3') {
+        else if ($grade == '3rd & 4th Graders') {
             return redirect()->route('third-fourth', ['width' => $dimension['width'], 'length' => $dimension['length'], $dimension['id']]);
         }
         else {
@@ -243,13 +247,13 @@ class UserController extends Controller
     }
 
     public function defined_fift_sixth() {
-        return view('user.pages.preDefinedBoards.fifthAndSixthGrade');
+        return view('user.pages.preDefinedBoards.fifth&sixthgraders');
     }
     public function defined_third_fourth() {
-        return view('user.pages.preDefinedBoards.thirdAndFourthGrade');
+        return view('user.pages.preDefinedBoards.third&fourthgraders');
     }
     public function defined_first_second() {
-        return view('user.pages.preDefinedBoards.firstAndSecondGrade');
+        return view('user.pages.preDefinedBoards.first&secondgraders');
     }
     public function defined_kinder_garten() {
         return view('user.pages.preDefinedBoards.kinderGarden');
@@ -266,9 +270,10 @@ class UserController extends Controller
                             ->select('grade')
                             ->get()
                             ->toArray();
+                            
             $grade = $grade[0]['grade'];
 
-            return view('user.pages.dashboard', ['grade_id' => $id, 'grade' => $grade]);
+            return view('user.pages.dashboard', ['grade_id' => $id, 'enquiry_grade' => $grade]);
         }
         else {
             return view('user.pages.dashboard', ['draft_id' => $id, 'dimension_id' => $dimension_id]);

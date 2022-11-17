@@ -49,6 +49,7 @@
         /* Track */
         #content::-webkit-scrollbar-track {
             background: #fff;
+            border-left: 1px solid rgb(48,48,48);
         }
 
         .nav-tabs {
@@ -84,11 +85,20 @@
 
         .tab {
             border-radius: 10px;
+            color: #fff;
+        }
+
+        .tab img {
+            filter: invert(100%);
         }
 
         .tab.active {
             background-color: #eee;
-            color: #7548FE;
+            color: rgb(7, 109, 168);
+        }
+
+        .tab.active img {
+            filter: invert(0);
         }
     </style>
 
@@ -96,7 +106,7 @@
     <div class="wrapper">
         <nav id="sidebar" class="position-relative" style="box-shadow:1px 0px 2px 1px silver" style="z-index: 999;">
             <div class="sidebar-header d-flex align-items-center" style="box-shadow:0px 0px 2px 1px silver">
-                <img src="{{url('assets/images/logo.png')}}" id="logo" class="img-fluid p-4" />
+                <img src="{{url('assets/images/logo-4.png')}}" id="logo" class="img-fluid p-4" />
                 <div id="close" style="display: none;">
                     <div class="position-relative d-flex align-items-center">
                         <div class="position-absolute px-2 pb-2" style="font-size: 48px;width: 100%;cursor: pointer;"
@@ -105,8 +115,8 @@
                 </div>
             </div>
 
-            <ul class="nav nav-tabs list-unstyled px-3 my-5"
-                style="color:black;font-weight: 500;border-bottom: none;font-size: 20px;">
+            <ul class="nav nav-tabs list-unstyled px-3 py-5"
+                style="color:black;font-weight: 500;border-bottom: none;font-size: 20px; background-color: rgb(7,109,168);">
                 <li class="active py-2" style="width: 100%;">
                     <div class="active p-3 tab align-items-center d-flex" type="button" data-bs-toggle="tab"
                         href="#home">
@@ -147,10 +157,11 @@
                     </div>
                 </li>
             </ul>
-            <a href="{{ route('user-logout') }}" class="text-decoration-none" style="color: black;font-weight: 500;">
-                <div class="bottom-0 position-absolute py-4 justify-content-center d-flex" style="width: 100%;">
+            <a href="{{ route('user-logout') }}" class="text-decoration-none" style="color: white;font-weight: 500;">
+                <div class="bottom-0 position-absolute py-4 justify-content-center d-flex"
+                    style="width: 100%; background-color: rgb(7,109,168);">
                     <img src="{{url('assets/images/logout.png')}}" class="img-fluid text"
-                        style="padding-right: 20px;" />Logout
+                        style="padding-right: 20px; filter:invert(100%)" />Logout
                 </div>
             </a>
         </nav>
@@ -161,7 +172,7 @@
                 <div class="container-fluid">
 
                     <button type="button" id="sidebarCollapse" class="btn btn-info text-white shadow-none"
-                        style="background-color: #7548fe;border: 1px solid #7548FE;">
+                        style="background-color: rgb(7,109,168);border: 1px solid rgb(7,109,168);">
                         <i class="fa fa-angle-right" style="font-size:26px"></i>
                     </button>
                     <!-- <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button"
@@ -207,9 +218,9 @@
                                         <a href="{{ route('defined-kinder-garden')}}" style="color: white;"
                                             class="text-decoration-none position-relative grade">
                                             <div class="position-absolute justify-content-center align-items-center d-flex select w-100"
-                                                style="height: 100%;">select</div>
-                                            <img src="{{url('assets/images/kinder.png')}}" class="img-fluid"
-                                                style="width:250px;" />
+                                                style="height: 100%;">Pre-K & Kindergarten</div>
+                                            <img src="{{url('public/storage/kinder-green-improve.png')}}"
+                                                class="img-fluid" style="width:250px;" />
                                         </a>
                                     </div>
                                     <div class="text-center" style="color: black;">Pre-K & Kindergarten</div>
@@ -220,7 +231,7 @@
                                         <a href="{{ route('defined-first-second')}} " style="color: white;"
                                             class="text-decoration-none position-relative grade">
                                             <div class="position-absolute justify-content-center align-items-center d-flex select w-100"
-                                                style="height: 100%;">select</div>
+                                                style="height: 100%;">1st & 2nd Graders</div>
                                             <img src="{{url('assets/images/kids.png')}} " class="img-fluid"
                                                 style="width:250px;" />
                                         </a>
@@ -232,7 +243,7 @@
                                         <a href="{{ route('defined-third-fourth')}} " style="color: white;"
                                             class="text-decoration-none position-relative grade">
                                             <div class="position-absolute justify-content-center align-items-center d-flex select w-100"
-                                                style="height: 100%;">select</div>
+                                                style="height: 100%;">3rd & 4th Graders</div>
                                             <img src="{{url('assets/images/kids1.png')}}" class="img-fluid"
                                                 style="width:250px;" />
                                         </a>
@@ -244,7 +255,7 @@
                                         <a href="{{ route('defined-fifth-sixth')}} " style="color: white;"
                                             class="text-decoration-none position-relative grade">
                                             <div class="position-absolute justify-content-center align-items-center d-flex select w-100"
-                                                style="height: 100%;">select</div>
+                                                style="height: 100%;">5th & 6th Graders</div>
                                             <img src="{{url('assets/images/kids2.png')}}" class="img-fluid"
                                                 style="width:250px;" />
                                         </a>
@@ -263,22 +274,133 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row mb-2" style="border-radius: 8px;background-color: rgb(211,244,240);">
+                        <div class="mt-5" style="width: 70%; margin:auto;">
+                            {{-- <div style="margin:auto;">
+                                <iframe style="height: 100%;" allowfullscreen
+                                    src="https://video.wixstatic.com/video/a3ba42_c9b0194121be4c35bdf94b6489d92775/1080p/mp4/file.mp4"
+                                    frameborder="0"></iframe>
+                            </div> --}}
+                            <div style="font-size: 35px; font-weight: bold; color: rgb(59,17,123);">
+                                <p>Handheld whiteboards with pre-printed learning charts for <span
+                                        style="color: rgb(255,64,64)">Pre-K</span> thru <span
+                                        style="color: rgb(255,64,64)">6th</span> grade!</p>
+                                <p class="my-4" style="width: 75%; display: block; margin: auto">Helping your child
+                                    build a photographic memory!</p>
+                            </div>
+                            <div style="font-size: 25px;color: rgb(59,17,123); width: 70%; margin:auto;">
+                                <p class="mb-0">Why is my child behind in school?</p>
+                                <p class="mb-0">Why isn't my child learning?</p>
+                                <p class="mb-0">Why my child can remember a song, but not his school work?</p>
+                            </div>
+                            <div class="mt-4" style="font-weight:bold; font-size: 20px;color: rgb(59,17,123);">
+                                <p>
+                                    Whose fault is it? It doesn't matter and it doesn't fix the problem! The question
+                                    is... what can we do right now, to help our children learn easier and with
+                                    confidence?
+                                </p>
+                                <h1 class="mt-4 mb-4"><strong>Happy Writing Boards is the answer!</strong></h1>
+                            </div>
+                            <div>
+                                <p style="color: #E21C21; font-weight:bold;">
+                                    <span style="font-size: 50px;">50</span>
+                                    <span style="font-size: 30px;"> Reasons why you should buy Happy writing boards for
+                                        your child/students.</span>
+                                </p>
+                                <ol type="1" class="mt-4"
+                                    style="font-size: 20px; color: rgb(59,17,123); font-weight:bold;">
+                                    <li>Best reference guide ever</li>
+                                    <li>The educational charts snap a picture in the brain</li>
+                                    <li>Doesn’t need to look around the classroom’s wall for information </li>
+                                    <li>Doesn’t need to constantly ask a sibling, parent, or teacher </li>
+                                    <li>Go-green – less paper waste </li>
+                                    <li>Exposes new ideas </li>
+                                    <li>Practice over and over and over again </li>
+                                    <li>Self-help</li>
+                                    <li>How to solve math problems like fractions right on the board</li>
+                                    <li>Inclusive</li>
+                                    <li>Boost brain activity one-on-one</li>
+                                    <li>Pictionary</li>
+                                    <li>Spelling corrected easily</li>
+                                    <li>Brainstorming with other children</li>
+                                    <li>Easy to correct mistakes </li>
+                                    <li>Allows for a quick, unplanned activity when you are interrupted </li>
+                                    <li>Increases the imagination </li>
+                                    <li>Allows for last-minute decisions </li>
+                                    <li>Best group collaboration </li>
+                                    <li>Increases student engagement </li>
+                                    <li>Builds confidence </li>
+                                    <li>Allows for quick assessment </li>
+                                    <li>Correct answer easily </li>
+                                    <li>Less frustration</li>
+                                    <li>Increases hope</li>
+                                    <li>A level of storytelling that mixes with the visual</li>
+                                    <li>Transforming the way, we teach children</li>
+                                    <li>Great to diagnose children with writing or reading disabilities</li>
+                                    <li>Helps children that are behind catch-up </li>
+                                    <li>Convenient </li>
+                                    <li>Portable</li>
+                                    <li>Quickly write, erase, and rewrite </li>
+                                    <li>Easy to Learn</li>
+                                    <li>Easy to Write</li>
+                                    <li>Easy storage</li>
+                                    <li>Wipes clean. If used a permanet marker, just use nail polish remover </li>
+                                    <li>Inexpensive </li>
+                                    <li>Board stands up independently </li>
+                                    <li>Reusable </li>
+                                    <li>Active recall </li>
+                                    <li>Productivity hacks </li>
+                                    <li>Helps visual learner </li>
+                                    <li>Waterproof </li>
+                                    <li>Siblings will be more willing to help</li>
+                                    <li>Lightweight </li>
+                                    <li>Great for games</li>
+                                    <li>The teacher doesn't have to visit each student for a response</li>
+                                    <li>An easier way to get a vote </li>
+                                    <li>Practice, practice, and more practice</li>
+                                    <li>Most of all they are fun to use and learn from</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="custom" class="tab-pane fade">
-                    <div style="font-size:24px;font-weight: 600;border-radius: 15px;box-shadow: 1px 1px 2px 1px silver;"
-                        class="bg-dark p-4 text-white">Customize your board</div>
+                    <div style="font-size:24px;font-weight: 600;border-radius: 15px;box-shadow: 1px 1px 2px 1px silver; background-color: rgb(7,109,168);"
+                        class="p-4 text-white">Customize your board</div>
                     <div class="row">
                         <div class="col-lg-8 col-12 d-flex align-items-center">
-                            <form action="{{ route('show-grade-board') }}" method="post">
-                                @csrf
+                            {{-- <form action="{{ route('show-grade-board') }}" method="post">
+                                @csrf --}}
                                 <div class="row mt-2" style="text-align:justify;">
                                     <div class="my-3 px-3 mb-4" style="font-size: 16px;font-weight: 500;">Design Your
                                         Student’s Chart</div>
-                                    <div id="selectDimension" class="col-12 px-3 mb-4">
+                                        @php
+                                            $grades = [
+                                                'Pre-K & KinderGarden' => 'kinder-green-improve.png',
+                                                '1st & 2nd Graders' => 'kids.png',
+                                                '3rd & 4th Graders' => 'kids1.png', 
+                                                '5th & 6th Graders' =>'kids2.png']
+                                        @endphp
+                                        @foreach ($grades as $grade => $icon)
+                                    <div class="col-sm-6 mb-4">
+                                        <div class="justify-content-center d-flex">
+                                            <a href="{{ route('show-grade-board', $grade) }}" style="color: white;"
+                                                class="text-decoration-none position-relative grade">
+                                                <div class="position-absolute justify-content-center align-items-center d-flex select w-100"
+                                                    style="height: 100%; font-weight: 500;">{{ $grade }}</div>
+                                                <img src="{{url('assets/images/'.$icon)}}"
+                                                    class="img-fluid" style="width:250px;" />
+                                            </a>
+                                        </div>
+                                        <div class="text-center mt-2" style="color: black; font-weight: 500;">{{ $grade }}</div>
+                                    </div>    
+                                    @endforeach
+                                    {{-- <div id="selectDimension" class="col-12 px-3 mb-4">
                                         <label for="customBoardDimension">Board Dimensions</label><br>
-                                        <select name="dimensionId" id="customBoardDimension" class="form-select w-100 p-2 border-0 mt-1"
+                                        <select name="dimensionId" id="customBoardDimension"
+                                            class="form-select w-100 p-2 border-0 mt-1"
                                             style="background-color: #eee;height: 45px;border-radius: 10px;outline: 0;">
-                                            {{-- Render Dimensions Here --}}
+                                            Render Dimensions Here
                                         </select>
                                     </div>
                                     <div id="selectGrade" class="col-12 px-3 mb-4">
@@ -286,9 +408,9 @@
                                         <select name="grade" id="customSelectGrade"
                                             class="form-select w-100 p-2 border-0 mt-1"
                                             style="background-color: #eee;height: 45px;border-radius: 10px;outline: 0;">
-                                            {{-- Render Grades Here --}}
+                                            Render Grades Here
                                         </select>
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div class="my-3 px-3 mb-5" style="font-size: 16px;font-weight: 500;">Number of
                                         elements
@@ -312,14 +434,14 @@
                                         </select>
                                     </div> --}}
                                 </div>
-                                <div class="text-center mt-lg-0 mt-md-0 mt-sm-0 my-5">
-                                    <button class="btn btn-primary border-0 w-25 py-2" id="nextBtn"
-                                        style="border-radius: 10px;background-color: #7548FE;">
+                                {{-- <div class="text-center mt-lg-0 mt-md-0 mt-sm-0 my-5">
+                                    <button class="btn btn-primary border-0 py-2" id="nextBtn"
+                                        style="border-radius: 10px; background-color: rgb(7,109,168);">
                                         Next
                                     </button>
                                     <!-- style="border-radius: 10px;background-color: #7548FE;" onclick="sendEnquiry()"> -->
-                                </div>
-                            </form>
+                                </div> --}}
+                            {{-- </form> --}}
                         </div>
                         <div class="col-lg-4 col-12">
                             <div class="my-3 mb-4" style="font-size: 16px;font-weight: 500;">Number of Elements
@@ -342,15 +464,15 @@
                 <div class="tab-pane fade" id="enquiry">
                     <form action="{{ route('save-enquiry') }}" method="POST">
                         @csrf
-                        <div style="font-size:24px;font-weight: 600;border-radius: 15px;box-shadow: 1px 1px 2px 1px silver;"
-                            class="bg-dark p-4 text-white">Enquiry Form</div>
+                        <div style="font-size:24px;font-weight: 600;border-radius: 15px;box-shadow: 1px 1px 2px 1px silver; background-color: rgb(7,109,168)"
+                            class="p-4 text-white">Enquiry Form</div>
                         <div class="row mt-5" style="text-align:justify;">
                             @if (isset($grade_id))
                             <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
                                 <label for="enquiryGradeId">Grade</label><br>
                                 <input type="text" id="enquiryGradeId" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
-                                    name="gradeName" value="{{ $grade }}" readonly />
+                                    name="gradeName" value="{{ $enquiry_grade }}" readonly />
                                 <input type="hidden" name="gradeId" value="{{ $grade_id }}">
                             </div>
                             @else
@@ -359,7 +481,8 @@
                                 <input type="text" id="enquiryDraftId" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
                                     name="draftId" @if (isset($draft_id)) value="{{ $draft_id }}" @endif readonly />
-                                    <input type="hidden" name="dimensionId" @if (isset($dimension_id)) value="{{ $dimension_id }}" @endif>
+                                <input type="hidden" name="dimensionId" @if (isset($dimension_id))
+                                    value="{{ $dimension_id }}" @endif>
                             </div>
                             @endif
                             {{-- <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
@@ -386,7 +509,8 @@
                                 <label for="enquiryName">Name</label><br>
                                 <input type="text" id="enquiryName" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
-                                    name="name" @if (null !== old('name')) value="{{ old('name') }}" @else value="{{ session('name') }}" @endif />
+                                    name="name" @if (null !==old('name')) value="{{ old('name') }}" @else
+                                    value="{{ session('name') }}" @endif />
                                 @error('name')
                                 <span class="text-danger"><sup>* </sup>{{ $message }}</span>
                                 @enderror
@@ -395,7 +519,8 @@
                                 <label for="enquiryEmail">Email address</label><br>
                                 <input type="email" id="enquiryEmail" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
-                                    name="email" @if (null !== old('email')) value="{{ old('email') }}" @else value="{{ session('email') }}" @endif />
+                                    name="email" @if (null !==old('email')) value="{{ old('email') }}" @else
+                                    value="{{ session('email') }}" @endif />
                                 @error('email')
                                 <span class="text-danger"><sup>* </sup>{{ $message }}</span>
                                 @enderror
@@ -405,8 +530,8 @@
                                 <input type="tel" id="enquiryContact" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
                                     name="contactNumber" value="{{ old('contactNumber') }}" />
-                                    @error('contactNumber')
-                                    <span class="text-danger"><sup>* </sup>{{ $message }}</span>
+                                @error('contactNumber')
+                                <span class="text-danger"><sup>* </sup>{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-12 px-3 mb-3">
@@ -414,8 +539,8 @@
                                 <input type="text" id="enquiryRemarks" class="form-control border-0 mt-1"
                                     style="height: 45px;background-color: #eee;border-radius: 10px;outline: 0;"
                                     name="remarks" value="{{ old('remarks') }}" />
-                                    @error('remarks')
-                                    <span class="text-danger"><sup>* </sup>{{ $message }}</span>
+                                @error('remarks')
+                                <span class="text-danger"><sup>* </sup>{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="col-12 px-3 mb-3">
@@ -423,8 +548,8 @@
                                 <textarea rows="5" id="enquiryAddress" class="border-0 px-3 py-2 mt-1"
                                     style="width: 100%;background-color: #eee;border-radius: 10px;outline: 0;"
                                     name="address">{{ old('address') }}</textarea>
-                                    @error('address')
-                                    <span class="text-danger"><sup>* </sup>{{ $message }}</span>
+                                @error('address')
+                                <span class="text-danger"><sup>* </sup>{{ $message }}</span>
                                 @enderror
                             </div>
                             {{-- <div class="col-12 px-3 mb-3">
@@ -455,16 +580,17 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-center">
-                            <div class="text-center my-5">
+                            <div class="text-center my-4">
                                 <button id="enquiryBtn" class="btn btn-primary border-0 py-2 px-5 mx-2"
-                                    style="border-radius: 10px;background-color: #7548FE;">Send Enquiry</button>
+                                    style="font-weight: 500; box-shadow: 1px 1px 2px 1px silver; border-radius: 10px;background-color: rgb(7,109,168);">Send Enquiry</button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div id="drafts" class="tab-pane fade px-3">
-                    <h4 class="mb-3 mt-2">My Drafts</h4>
-                    <div id="draftBtn" class="my-2 text-center">
+                <div id="drafts" class="tab-pane fade">
+                    <div style="font-size:24px;font-weight: 600;border-radius: 15px;box-shadow: 1px 1px 2px 1px silver; background-color: rgb(7,109,168);"
+                        class="p-4 text-white">My Drafts</div>
+                    <div id="draftBtn" class="my-2 text-center mt-4">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -482,29 +608,139 @@
                     </div>
                 </div>
                 <div id="about" class="tab-pane fade">
-                    <div class="d-flex flex-column align-items-center">
-                        <h3 class="mt-2 mb-1">About Us</h3>
-                        <div class="my-2" style="width: 90%;">
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sed quasi, sint mollitia
-                                dolorem commodi dicta expedita dolorum iure, accusamus, error culpa rem corporis nostrum
-                                magni?</p>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt provident in ab quia
-                                distinctio nulla accusantium commodi iure! A aliquam cupiditate et magnam. Maxime magni
-                                dolor voluptatum! Impedit dolore neque corrupti hic facilis adipisci et iste vel dolores
-                                ipsam natus quis nesciunt magni, sapiente voluptas quisquam tempore! Ea odio ipsam
-                                cumque tempora reiciendis quae id repudiandae repellat animi quod doloribus quaerat
-                                cupiditate, voluptas veritatis inventore iste exercitationem nesciunt dolores nobis
-                                omnis! Qui consectetur atque reprehenderit recusandae ullam ad at voluptate.</p>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate vero eius adipisci
-                                ipsum illum ipsa.</p>
+                    <div style="font-size:24px;font-weight: 600;border-radius: 15px;box-shadow: 1px 1px 2px 1px silver; background-color: rgb(7,109,168);"
+                        class="p-4 text-white">About Us</div>
+                    <div class="d-flex flex-column align-items-center mt-4"
+                        style="border-radius: 8px;background-color: rgb(211,244,240);">
+                        <div class="row my-2">
+                            <div class="mt-4" style="width: 70%; margin:auto;">
+                                <div style="font-size: 35px; font-weight: bold; color: rgb(59,17,123);">
+                                    <p>Handheld whiteboards with pre-printed learning charts for <span
+                                            style="color: rgb(255,64,64)">Pre-K</span> thru <span
+                                            style="color: rgb(255,64,64)">6th</span> grade!</p>
+                                    <p class="my-4" style="width: 75%; display: block; margin: auto">Helping your child
+                                        build a photographic memory!</p>
+                                </div>
+                                <div style="font-size: 25px;color: rgb(59,17,123); width: 70%; margin:auto;">
+                                    <p class="mb-0">Why is my child behind in school?</p>
+                                    <p class="mb-0">Why isn't my child learning?</p>
+                                    <p class="mb-0">Why my child can remember a song, but not his school work?</p>
+                                </div>
+                                <div class="mt-4" style="font-weight:bold; font-size: 20px;color: rgb(59,17,123);">
+                                    <p>
+                                        Whose fault is it? It doesn't matter and it doesn't fix the problem! The
+                                        question is... what can we do right now, to help our children learn easier and
+                                        with confidence?
+                                    </p>
+                                    <h1 class="mt-4 mb-4"><strong>Happy Writing Boards is the answer!</strong></h1>
+                                </div>
+                                <div class="my-3">
+                                    <video width="419" height="200" controls style="display:block; margin: auto">
+                                        <source
+                                            src="https://video.wixstatic.com/video/a3ba42_c9b0194121be4c35bdf94b6489d92775/1080p/mp4/file.mp4"
+                                            type="video/mp4">
+                                    </video>
+                                </div>
+                                <div style="font-size: 20px;color: rgb(59,17,123);">
+                                    <p>
+                                        We wonder why our children misbehave or are uninspired in school, leaving many
+                                        of us with little hope for their future. It's no secret that electronic games
+                                        and videos have taken their attention away from their education.
+                                    </p>
+                                    <p>
+                                        These boards will give the children, parents, teachers, and tutors, the hope
+                                        that we all need. They get to practice, practice and practice until they get it
+                                        right.
+                                    </p>
+                                    <p>
+                                        Hope is not having to look for help when it's right on the board. Hope is when
+                                        you can try and try over and over again without getting frustrated from using so
+                                        much paper. Hope is when your siblings and parents don't mind helping you
+                                        because they love markers too.
+                                    </p>
+                                    <p>
+                                        They need one of these boards at school and at home...just having one at school
+                                        is not enough.
+                                    </p>
+                                </div>
+                                <div class="my-3">
+                                    <video width="500" height="281" controls style="display:block; margin: auto">
+                                        <source
+                                            src="https://video.wixstatic.com/video/a3ba42_b9cc5be0b8c54f8197627c986776bfe1/1080p/mp4/file.mp4"
+                                            type="video/mp4">
+                                    </video>
+                                </div>
+                                <div>
+                                    <p style="color: #E21C21; font-weight:bold;">
+                                        <span style="font-size: 50px;">50</span>
+                                        <span style="font-size: 30px;"> Reasons why you should buy Happy writing boards
+                                            for
+                                            your child/students.</span>
+                                    </p>
+                                    <ol type="1" class="mt-4"
+                                        style="font-size: 20px; color: rgb(59,17,123); font-weight:bold;">
+                                        <li>Best reference guide ever</li>
+                                        <li>The educational charts snap a picture in the brain</li>
+                                        <li>Doesn’t need to look around the classroom’s wall for information </li>
+                                        <li>Doesn’t need to constantly ask a sibling, parent, or teacher </li>
+                                        <li>Go-green – less paper waste </li>
+                                        <li>Exposes new ideas </li>
+                                        <li>Practice over and over and over again </li>
+                                        <li>Self-help</li>
+                                        <li>How to solve math problems like fractions right on the board</li>
+                                        <li>Inclusive</li>
+                                        <li>Boost brain activity one-on-one</li>
+                                        <li>Pictionary</li>
+                                        <li>Spelling corrected easily</li>
+                                        <li>Brainstorming with other children</li>
+                                        <li>Easy to correct mistakes </li>
+                                        <li>Allows for a quick, unplanned activity when you are interrupted </li>
+                                        <li>Increases the imagination </li>
+                                        <li>Allows for last-minute decisions </li>
+                                        <li>Best group collaboration </li>
+                                        <li>Increases student engagement </li>
+                                        <li>Builds confidence </li>
+                                        <li>Allows for quick assessment </li>
+                                        <li>Correct answer easily </li>
+                                        <li>Less frustration</li>
+                                        <li>Increases hope</li>
+                                        <li>A level of storytelling that mixes with the visual</li>
+                                        <li>Transforming the way, we teach children</li>
+                                        <li>Great to diagnose children with writing or reading disabilities</li>
+                                        <li>Helps children that are behind catch-up </li>
+                                        <li>Convenient </li>
+                                        <li>Portable</li>
+                                        <li>Quickly write, erase, and rewrite </li>
+                                        <li>Easy to Learn</li>
+                                        <li>Easy to Write</li>
+                                        <li>Easy storage</li>
+                                        <li>Wipes clean. If used a permanet marker, just use nail polish remover </li>
+                                        <li>Inexpensive </li>
+                                        <li>Board stands up independently </li>
+                                        <li>Reusable </li>
+                                        <li>Active recall </li>
+                                        <li>Productivity hacks </li>
+                                        <li>Helps visual learner </li>
+                                        <li>Waterproof </li>
+                                        <li>Siblings will be more willing to help</li>
+                                        <li>Lightweight </li>
+                                        <li>Great for games</li>
+                                        <li>The teacher doesn't have to visit each student for a response</li>
+                                        <li>An easier way to get a vote </li>
+                                        <li>Practice, practice, and more practice</li>
+                                        <li>Most of all they are fun to use and learn from</li>
+                                    </ol>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div id="contact" class="tab-pane fade">
+                    <div style="font-size:24px;font-weight: 600;border-radius: 15px;box-shadow: 1px 1px 2px 1px silver; background-color: rgb(7,109,168);"
+                    class="p-4 text-white">Contact Us</div>
                     <div class="row">
                         <div class="col-lg-6 col-12 px-5 py-lg-5">
-                            <div style="font-size: 32px;font-weight: 500;">Contact us</div>
-                            <div style="font-size: 16px;color: grey;">Any question or remarks? Just write us a message!
+                            <div style="font-size: 16px;">Any question or remarks? Just write us a message!
                             </div>
                             <form id="contactUsForm" action="#" method="post">
                                 <table class="mt-4" style="font-size: 16px;width: 100%;">
@@ -527,44 +763,46 @@
                                 </table>
                                 <div class="text-end mt-4 mb-5">
                                     <div class="btn btn-primary border-0 w-25 py-2" id="nextBtn"
-                                        style="border-radius: 10px;background-color: #7548FE;">
+                                        style="border-radius: 10px; background-color: rgb(7,109,168);">
                                         Submit</div>
                                 </div>
                             </form>
                         </div>
-                        <div class="col-lg-6 col-12 colPadding text-white">
-                            <div class="p-4" style="background-color: #7548FE;border-radius:10px;">
-                                <div class="" style="font-size: 32px;">Contact information</div>
-                                <div class="" style="font-size: 16px;">Fill upp the form and our team will get back to
-                                    you </div>
-                                <div class="py-4" style="font-size: 16px;">
-                                    <div class="d-flex mb-3">
-                                        <img src="{{url('assets/images/call.png')}}" class="img-fluid"
-                                            style="height: 24px;width: 24px;margin-right: 20px;" />
-                                        <div>+ 0123-456-789</div>
+                        <div class="col-lg-6 col-12 colPadding text-white mt-5">
+                            {{-- <div class="p-4" style="background-color: #7548FE;border-radius:10px;"> --}}
+                                <div class="p-4" style="background-color: rgb(7,109,168);border-radius:10px;">
+                                    <div class="" style="font-size: 32px;">Contact information</div>
+                                    <div class="" style="font-size: 16px;">Fill upp the form and our team will get back
+                                        to
+                                        you </div>
+                                    <div class="py-4" style="font-size: 16px;">
+                                        <div class="d-flex mb-3">
+                                            <img src="{{url('assets/images/call.png')}}" class="img-fluid"
+                                                style="height: 24px;width: 24px;margin-right: 20px; filter: invert(100%)" />
+                                            <div>+ 0123-456-789</div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <img src="{{url('assets/images/contactHelp.png')}}" class="img-fluid"
+                                                style="height: 24px;width: 24px;margin-right: 20px; filter: invert(100%)" />
+                                            <div>contact@help.com</div>
+                                        </div>
                                     </div>
-                                    <div class="d-flex">
-                                        <img src="{{url('assets/images/contactHelp.png')}}" class="img-fluid"
-                                            style="height: 24px;width: 24px;margin-right: 20px;" />
-                                        <div>contact@help.com</div>
-                                    </div>
+                                    {{-- <img src="{{url('assets/images/contactImg.png')}}" class="img-fluid"
+                                        style="width: 100%;" /> --}}
                                 </div>
-                                <img src="{{url('assets/images/contactImg.png')}}" class="img-fluid"
-                                    style="width: 100%;" />
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-
         </div>
-    </div>
 
-    {{-- JQuery CDN --}}
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <script>
-        // Custom Your Board
+        {{-- JQuery CDN --}}
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+        <script>
+            // Custom Your Board
         let customYourBoard = document.getElementById('customize')  
         customYourBoard.addEventListener('click', ()=> {
             $.ajax({
@@ -608,6 +846,8 @@
                 },
                 success: function(response) {
                     if (response.length == 0) {
+                        let table = document.querySelector('#draftBtn > table')
+                        table.remove()
                         let draftSection = document.getElementById('draftBtn')
                         draftSection.className += ' d-flex justify-content-center align-items-center'
                         draftSection.setAttribute('style', 'width: 100%; height: 60vh;')
@@ -663,7 +903,7 @@
             document.querySelector('#enquiry').className += ' show active'
             document.querySelector('#home').classList.remove('active')
         }
-    </script>
+        </script>
 
 </body>
 

@@ -12,14 +12,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <style>
     .row {
-  --bs-gutter-x: 0 !important;
-}
+        --bs-gutter-x: 0 !important;
+    }
 </style>
 
 <script>
@@ -47,8 +47,6 @@
                         <div class="position-relative">
                             <img src="{{url('assets/images/triangle.png')}}" class="img-fluid"
                                 style="transform: rotate(180deg);width:100%" />
-                               {{-- <a id="updateDraft"> <div class="btn btn-primary position-absolute m-lg-4 m-2 px-lg-3"
-                                    style="z-index: 1;left:0;background-color: #7548fe;"><span class="fa fa-save"></span>&nbsp;&nbsp;Update</div></a> --}}
                         </div>
                         <div class="bottom-0 position-absolute" style="width: 100%;">
                             <img src="{{url('assets/images/10.png')}}" class="img-fluid" style="height: 40vh;" />
@@ -61,67 +59,106 @@
                                 style="width:fit-content;background-color:#172337;" onclick="backBoard()">Switch to
                                 BackBoard&nbsp;<img style="height: 20px ;"
                                     src="https://img.icons8.com/material-outlined/24/FFFFFF/move-right.png" /></div>
-                                    {{-- <div style="margin-left:auto ;" class="btn btn-primary rounded-pill text-white px-3 d-flex align-items-center"
-                            style="z-index: 1;left:0;background-color: #7548fe;" id="sendEnquiryBtn">
-                            <i class="fa fa-paper-plane-o" aria-hidden="true"></i>&nbsp;&nbsp;Send Enquiry <input type="hidden" name="draftId" value="{{ $draft_id }}"> </div> --}}
                         </div>
+                        @if ($line != null)
+                        <input type="text" class="form-control" value="{{ $line['name'] }}" readonly />
+                        @else
+                        <input type="text" class="form-control" value="No Line" readonly />
+                        @endif
 
-                        <div class="row bottom-0 position-absolute" style="width: 55.6%;">
-                            @for ($i = 1; $i <= 4; $i++)
-                                    <div class="col">
-                                        <div id="{{ 'div'.$i }}" style="overflow-y: scroll;height: 150px;width:100%" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                            @foreach ($positions as $position)
-                                                @if ('div'.$i == $position['position'])
-                                                    <img src="{{ asset('public/storage/'.$position['name'])}}" draggable="true" ondragstart="drag(event)" id="{{ $position['element_id'] }}" style="height: 100%;width:100%">
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                    </div>
-                            @endfor        
+                        @if ($line['id'] == 1)
+                        <div class="line1 box">
+                            <hr style="border-top: 3px solid black;">
+                            @for ($i = 0; $i < 2; $i++)
+                                <hr style="border-top: 3px dashed black;background-color: white;">
+                                <hr style="border-top: 3px solid black;">
+                                @endfor
                         </div>
+                        @endif
 
 
+
+                        @if ($line['id'] == 2)
+                        <div class="line2 box">
+                            <div>
+                                <hr style="border-top: 3px solid black;">
+                                <hr style="border-top: 3px solid black;">
+                            </div>
+                            @for ($i = 0; $i < 5; $i++) <div style="margin-top:2.5rem ;">
+                                <hr style="border-top: 3px solid black;">
+                                <hr style="border-top: 3px solid black;">
+                        </div>
+                        @endfor
                     </div>
-                    <div class="col-2 position-relative">
-                        <div class="">
-                            <img src="{{url('assets/images/triangle.png')}}" class="img-fluid "
-                                style="transform: rotate(270deg);width:100%" />
-                        </div>
-                        <div class="bottom-0 position-absolute" style="width: 100%;">
-                            <img src="{{url('assets/images/9.png')}}" class="img-fluid" style="height: 40vh;" />
-                        </div>
+                    @endif
+
+                    @if ($line['id'] == 3)
+                    <!-- kkl -->
+                    <div class="line3 box">
+                        @for ($i = 0; $i < 10; $i++) <hr style="border-top: 3px solid black;margin-top: 2rem;">
+                            @endfor
                     </div>
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="bottom-0 position-absolute">
-                    <div class="" style="height: 100vh;width: 16.5vw; overflow-y: scroll;">
-                        <div class="row">
-                            <div class="col-12 p-1" style="cursor: move;">
-                                @foreach ($elements as $element)
-                                    @php
-                                        $flag = 0;
-                                    @endphp
-                                    @foreach ($positions as $position)
-                                        @if ($element['id'] == $position['element_id'])
-                                            @php
-                                                $flag = 1;
-                                            @endphp
-                                        @endif
-                                    @endforeach
-                                    @if ($flag == 0)
-                                        <div id="" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                            <img src="{{ asset('public/storage/'.$element['name'])}}" draggable="true" ondragstart="drag(event)" id="{{ $element['id'] }}"
-                                            style="height: 100%;width:100%">
-                                        </div>
-                                    @endif
+                    @endif
+
+                    <div class="row bottom-0 position-absolute" style="width: 55.6%;">
+                        @for ($i = 1; $i <= 4; $i++) <div class="col">
+                            <div id="{{ 'div'.$i }}"
+                                style="overflow-y: scroll;height: 173px;width:100%; border: 1px solid #a8a8a8"
+                                ondrop="drop(event)" ondragover="allowDrop(event)">
+                                @foreach ($positions as $position)
+                                @if ('div'.$i == $position['position'])
+                                <img src="{{ asset('public/storage/'.$position['name'])}}" draggable="true"
+                                    ondragstart="drag(event)" id="{{ $position['element_id'] }}"
+                                    style="height: 100%;width:100%">
+                                @endif
                                 @endforeach
                             </div>
+                    </div>
+                    @endfor
+                </div>
+
+
+            </div>
+            <div class="col-2 position-relative">
+                <div class="">
+                    <img src="{{url('assets/images/triangle.png')}}" class="img-fluid "
+                        style="transform: rotate(270deg);width:100%" />
+                </div>
+                <div class="bottom-0 position-absolute" style="width: 100%;">
+                    <img src="{{url('assets/images/9.png')}}" class="img-fluid" style="height: 40vh;" />
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="col-2">
+            <div class="bottom-0 position-absolute">
+                <div class="" style="height: 100vh;width: 16.5vw; overflow-y: scroll;">
+                    <div class="row">
+                        <div class="col-12 p-1" style="cursor: move;">
+                            @foreach ($elements as $element)
+                            @php
+                            $flag = 0;
+                            @endphp
+                            @foreach ($positions as $position)
+                            @if ($element['id'] == $position['element_id'])
+                            @php
+                            $flag = 1;
+                            @endphp
+                            @endif
+                            @endforeach
+                            @if ($flag == 0)
+                            <div id="" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                <img src="{{ asset('public/storage/'.$element['name'])}}" draggable="true"
+                                    ondragstart="drag(event)" id="{{ $element['id'] }}" style="height: 100%;width:100%">
+                            </div>
+                            @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>
-
             </div>
+
+        </div>
         </div>
     </section>
 
@@ -129,7 +166,8 @@
         <div class="row" style="height: 100vh;background-color: #172337;">
             <div class="col-2">
                 <div class="">
-                    <img src="{{url('assets/images/triangle.png')}}" class="img-fluid" style="transform: rotate(180deg);width:100%" />
+                    <img src="{{url('assets/images/triangle.png')}}" class="img-fluid"
+                        style="transform: rotate(180deg);width:100%" />
                 </div>
                 <div class="bottom-0 position-absolute">
                     <div class="" style="height: 65vh;width: 16.5vw; overflow-y: scroll;">
@@ -167,10 +205,13 @@
                         style="width:fit-content;background-color:#172337;" onclick="backBoard()">Switch to
                         FrontBoard&nbsp;<img style="height: 20px;"
                             src="https://img.icons8.com/material-outlined/24/FFFFFF/move-right.png" /></div>
-                            {{-- <div style="margin-left:auto ;" class="btn btn-primary rounded-pill text-white px-3 d-flex align-items-center"
-                            style="z-index: 1;left:0;background-color: #7548fe;" id="save" onclick="EquiryFrom()">
-                            <span class="fa fa-save"></span>&nbsp;&nbsp;Save</div> --}}
-                            
+                </div>
+                <input type="hidden" name="backLineId" value="{{ $draft['id'] }}">
+                <input type="text" class="form-control" name="backLine" value="{{ $draft['back_line_name'] }}"
+                    readonly />
+                <div class="mt-2">
+                    <img src="{{ url('assets/images/'.$draft['img_name']) }}" alt="{{ $draft['back_line_name'] }}"
+                        style="width:100%;" />
                 </div>
                 <div class="" style="height: 100vh;"></div>
                 <div class="bg-dark" style="bottom: 0;position:sticky;width: 100%; height: 120px;">
@@ -218,7 +259,8 @@
 
 
 {{-- JQuery CDN --}}
-<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script>
     function getUrl() {
         return "{{ route('save-element') }}";
@@ -255,13 +297,6 @@
                 console.log('ERROR: ' +JSON.stringify(error))
             }
         })
-    })
-
-    let sendEnquiryBtn = document.querySelector('#sendEnquiryBtn')
-    sendEnquiryBtn.addEventListener('click', ()=> {
-        let draftId = document.querySelector('#sendEnquiryBtn > input[name=draftId]').value
-        let url = "{{ route('send-enquiry', '') }}" + '/' + draftId
-        window.location.href = url
     })
 </script>
 {{-- Drag and Drop js --}}

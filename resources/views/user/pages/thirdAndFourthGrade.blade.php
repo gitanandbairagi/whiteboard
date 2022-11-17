@@ -46,7 +46,7 @@
         <div class="row">
             <div class="col-10">
                     {{-- for grade clarification --}}
-                    <input type="hidden" value="1" name="grade_id">
+                    <input type="hidden" value="3" name="grade_id">
                 <div class="row" style="height: 100vh;background-color: #172337;">
                     <div class="col-2 position-relative">
                         <div class="position-relative">
@@ -71,8 +71,8 @@
                                         Dimension : <span class="fst-italic">{{ $dimension['width'].' X '.$dimension['length'].' inches' }}</span>
                                     </div>
                                     <div style="margin-left: auto;">
-                                            <button role="button" class="btn btn-primary position-relative rounded-pill"
-                                            style="z-index: 1;left:0;background-color: #7548fe;" id="save" onclick="EquiryFrom()">
+                                            <button role="button" class="btn text-light position-relative rounded-pill"
+                                            style="z-index: 1;left:0;background-color: rgb(7,109,168);" id="save" onclick="EquiryFrom()">
                                             <i class="fa fa-bookmark" aria-hidden="true"></i><span>&nbsp;&nbsp;Save</span>
                                                 </button>
                                         </div>
@@ -90,27 +90,11 @@
 
                         <div class="line1 box">
                         <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
+                        @for ($i = 0; $i < 2; $i++)
+                                <hr style="border-top: 3px dashed black;background-color: white;">
+                                <hr style="border-top: 3px solid black;">
+                                @endfor
                         </div>
-
-
 
                         <div class="line2 box">
                             <div>
@@ -255,41 +239,47 @@
                         FrontBoard&nbsp;<img style="height: 20px;"
                             src="https://img.icons8.com/material-outlined/24/FFFFFF/move-right.png" /></div>
                 </div>
-                <select id="selectBackLines" class="form-select" name="backLineId">
-                    @foreach ($back_lines as $line)
-                    <option value="{{ 'back'.$line['id'] }}">{{ $line['name'] }}</option>
-                    @endforeach
-                </select>
+
+                <div class="mt-2">
+                    <img src="{{ url('assets/images/ruler5.png') }}" class="img-fluid" style="width:100%;" />
+                </div>
+
+                <div class="" style="height: 48vh;"></div>
 
                 @foreach ($back_lines as $line)
-                <div class="{{ 'back'.$line['id'] }} box mt-2">
-                    <img src="{{ url('assets/images/'.$line['img_name']) }}" alt="whole-number"
-                        style="width:100%;" />
-                </div>
-                @endforeach
-                <!-- javascript for selecting type of back lines -->
+                    <div class="{{ 'back'.$line['id'] }} back-line-box mt-2">
+                        <img src="{{ url('assets/images/'.$line['img_name']) }}" alt="whole-number"
+                            style="width:100%;" />
+                    </div>
+                    @endforeach
 
-                <script src="https://code.jquery.com/jquery-1.12.4.min.js">
-                </script>
-                <script>
-                    // jQuery functions to hide and show the div
-                    $(document).ready(function () {
-                        $("#selectBackLines").change(function () {
-                            $(this).find("option:selected")
-                                   .each(function () {
-                                var optionValue = $(this).attr("value");
-                                if (optionValue) {
-                                    $(".box").not("." + optionValue).hide();
-                                    $("." + optionValue).show();
-                                } else {
-                                    $(".box").hide();
-                                }
-                            });
-                        }).change();
-                    });
-                </script>
+                    <select id="selectBackLines" class="form-select" name="backLineId">
+                        @foreach ($back_lines as $line)
+                        <option value="{{ 'back'.$line['id'] }}">{{ $line['name'] }}</option>
+                        @endforeach
+                    </select>
+                    <!-- javascript for selecting type of back lines -->
 
-                <div class="" style="height: 100vh;"></div>
+                    <script src="https://code.jquery.com/jquery-1.12.4.min.js">
+                    </script>
+                    <script>
+                        // jQuery functions to hide and show the div
+                        $(document).ready(function () {
+                            $("#selectBackLines").change(function () {
+                                $(this).find("option:selected")
+                                       .each(function () {
+                                    var optionValue = $(this).attr("value");
+                                    if (optionValue) {
+                                        $(".back-line-box").not("." + optionValue).hide();
+                                        $("." + optionValue).show();
+                                    } else {
+                                        $(".back-line-box").hide();
+                                    }
+                                });
+                            }).change();
+                        });
+                    </script>
+
                 <div class="bg-dark" style="bottom: 0;position:sticky;width: 100%; height: 120px;">
 
                 </div>

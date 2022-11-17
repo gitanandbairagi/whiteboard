@@ -18,7 +18,7 @@
 
 <style>
     body {
-        background: url('../Images/thankyou.jpeg') no-repeat;
+        background: url({{ url('public/storage/thankyou.jpeg') }}) no-repeat;
         background-size: cover;
         height: 100vh;
         background-attachment: fixed;
@@ -32,7 +32,7 @@
 
 <body>
     <section class="justify-content-center d-flex align-items-center"
-        style="background-color: rgb(0,0,0,0.8);min-height: 100vh;">
+        style="background-color: rgb(0,0,0,0.7);min-height: 100vh;">
         <div class="text-center text-white container">
             <div class="" style="font-size: 80px;font-weight: 500;font-family: 'Times New Roman', Times, serif;">Thank
                 You!</div>

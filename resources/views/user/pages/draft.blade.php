@@ -48,7 +48,7 @@
                             <img src="{{url('assets/images/triangle.png')}}" class="img-fluid"
                                 style="transform: rotate(180deg);width:100%" />
                                <a id="updateDraft"> <div class="btn btn-primary position-absolute m-lg-4 m-2 px-lg-3"
-                                    style="z-index: 1;left:0;background-color: #7548fe;"><span class="fa fa-save"></span>&nbsp;&nbsp;Update</div></a>
+                                    style="z-index: 1;left:0;background-color: rgb(7,109,168);"><span class="fa fa-save"></span>&nbsp;&nbsp;Update</div></a>
                         </div>
                         <div class="bottom-0 position-absolute" style="width: 100%;">
                             <img src="{{url('assets/images/10.png')}}" class="img-fluid" style="height: 40vh;" />
@@ -66,8 +66,8 @@
                                         Dimension : <span class="fst-italic">{{ $dimension['width'].' X '.$dimension['length'].' inches' }}</span>
                                     </div>
 
-                                    <div style="margin-left:auto ;" class="btn btn-primary rounded-pill text-white px-3 d-flex align-items-center"
-                            style="z-index: 1;left:0;background-color: #7548fe;" id="sendEnquiryBtn">
+                                    <div class="btn rounded-pill text-white px-3 d-flex align-items-center"
+                            style="z-index: 1;left:0; margin-left: auto; background-color: rgb(7,109,168);" id="sendEnquiryBtn">
                             <i class="fa fa-paper-plane-o" aria-hidden="true"></i>&nbsp;&nbsp;Send Enquiry <input type="hidden" name="draftId" value="{{ $draft_id }}"> </div>
                         </div>
 
@@ -85,24 +85,10 @@
 
                         <div class="line1 box">
                         <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
-                        <hr style="border-top: 3px dashed black;background-color: white;">
-                        <hr style="border-top: 3px solid black;">
+                        @for ($i = 0; $i < 2; $i++)
+                                <hr style="border-top: 3px dashed black;background-color: white;">
+                                <hr style="border-top: 3px solid black;">
+                                @endfor
                         </div>
 
 
@@ -255,40 +241,47 @@
                             style="z-index: 1;left:0;background-color: #7548fe;" id="save" onclick="EquiryFrom()">
                             <span class="fa fa-save"></span>&nbsp;&nbsp;Save</div> --}}
                 </div>
-                <select id="selectBackLines" class="form-select" name="backLineId">
-                    @foreach ($back_lines as $line)
-                    <option value="{{ 'back'.$line['id'] }}" @if ($back_line_id == $line['id']) selected @endif>{{ $line['name'] }}</option>
-                    @endforeach
-                </select>
+
+                <div class="mt-2">
+                    <img src="{{ url('public/storage/scales/12-inch-scale.png') }}" class="img-fluid" style="width:100%;" />
+                </div>
+
+                <div class="" style="height: 48vh;"></div>
 
                 @foreach ($back_lines as $line)
-                <div class="{{ 'back'.$line['id'] }} box mt-2">
-                    <img src="{{ url('assets/images/'.$line['img_name']) }}" alt="whole-number"
-                        style="width:100%;" />
-                </div>
-                @endforeach
-                <!-- javascript for selecting type of back lines -->
+                    <div class="{{ 'back'.$line['id'] }} back-line-box mt-2">
+                        <img src="{{ url('assets/images/'.$line['img_name']) }}" alt="whole-number"
+                            style="width:100%;" />
+                    </div>
+                    @endforeach
 
-                <script src="https://code.jquery.com/jquery-1.12.4.min.js">
-                </script>
-                <script>
-                    // jQuery functions to hide and show the div
-                    $(document).ready(function () {
-                        $("#selectBackLines").change(function () {
-                            $(this).find("option:selected")
-                                   .each(function () {
-                                var optionValue = $(this).attr("value");
-                                if (optionValue) {
-                                    $(".box").not("." + optionValue).hide();
-                                    $("." + optionValue).show();
-                                } else {
-                                    $(".box").hide();
-                                }
-                            });
-                        }).change();
-                    });
-                </script>
-                <div class="" style="height: 100vh;"></div>
+                    <select id="selectBackLines" class="form-select" name="backLineId">
+                        @foreach ($back_lines as $line)
+                        <option value="{{ 'back'.$line['id'] }}" @if ($back_line_id == $line['id']) selected @endif>{{ $line['name'] }}</option>
+                        @endforeach
+                    </select>
+                    <!-- javascript for selecting type of back lines -->
+
+                    <script src="https://code.jquery.com/jquery-1.12.4.min.js">
+                    </script>
+                    <script>
+                        // jQuery functions to hide and show the div
+                        $(document).ready(function () {
+                            $("#selectBackLines").change(function () {
+                                $(this).find("option:selected")
+                                       .each(function () {
+                                    var optionValue = $(this).attr("value");
+                                    if (optionValue) {
+                                        $(".back-line-box").not("." + optionValue).hide();
+                                        $("." + optionValue).show();
+                                    } else {
+                                        $(".back-line-box").hide();
+                                    }
+                                });
+                            }).change();
+                        });
+                    </script>
+
                 <div class="bg-dark" style="bottom: 0;position:sticky;width: 100%; height: 120px;">
 
                 </div>
